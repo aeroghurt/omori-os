@@ -1,6 +1,7 @@
 import { resources } from '/src/resource.js';
 import { Sprite } from '/src/sprite.js';
-import { Vector2 } from '/src/vector2.js'
+import { Vector2 } from '/src/vector2.js';
+import { GameLoop } from '/src/gameLoop.js';
 
 const canvas = document.querySelector("#canvas")
 const ctx = canvas.getContext("2d");
@@ -23,14 +24,17 @@ const omori = new Sprite({
     frame: 1
 })
 
-const omoriPos = new Vector2(32 * 1, 32 * 2)
+const omoriPos = new Vector2(32 * 1, 32 * 2);
 
 const draw = () => {
     floor.drawImage(ctx, 0, 0);
     door.drawImage(ctx, 0, 0);
-    omori.drawImage(ctx, omoriPos.x, omoriPos.y)
+    const omoriOffset = new Vector2(-8, -21);
+    const omoriPosX = omoriPos.x + omoriOffset.x;
+    const omoriPosY = omoriPos.y + omoriOffset.y;
+    omori.drawImage(ctx, omoriPos.x, omoriPos.y);
 }
 
-setInterval(() => {
-    draw();
-}, 300)
+const gameLoop = new GameLoop(update, draw);
+
+gameLoop.start();
