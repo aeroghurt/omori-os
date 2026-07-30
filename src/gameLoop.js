@@ -15,7 +15,6 @@ export class GameLoop {
         this.lastFrameTime = timestamp;
         this.accumulatedTime += deltaTime;
         while (this.accumulatedTime >= this.timeStep) {
-            console.log("UPDATING");
             this.update(this.timeStep);
             this.accumulatedTime -= this.timeStep;
         }
