@@ -8,7 +8,8 @@ class Resources {
             lightbulb: "assets/lightbulb.png",
             notebook: "assets/notebook.png",
             tissues: "assets/tissues.png",
-            omori: "assets/omori-spritesheet.png"
+            omori: "assets/omori-spritesheet.png",
+            shadow: "assets/shadow.png"
         };
         // keep all of the images
         this.images = {};

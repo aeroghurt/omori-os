@@ -8,7 +8,8 @@ export class Sprite {
         vFrames,
         frame,
         scale,
-        position
+        position,
+        animations
     }) {
         this.resource = resource;
         this.frameSize = frameSize ?? new Vector2(32,32);
@@ -18,6 +19,7 @@ export class Sprite {
         this.frameMap = new Map();
         this.scale = scale ?? 1;
         this.position = position ?? new Vector2(0,0);
+        this.animations = animations ?? null;
         this.buildFrameMap();
     }
 
@@ -32,6 +34,14 @@ export class Sprite {
                 frameCount++;
             }
         }
+    }
+
+    step(delta) {
+        if (!this.animations) {
+            return;
+        }
+        this.animations.step(delta);
+        this.frame = this.animations.frame; 
     }
 
     drawImage(ctx, x, y) {
