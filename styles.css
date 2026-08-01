@@ -8,4 +8,10 @@ html, body {
 canvas {
     width: 100%;
     background-color: white;
+    z-index: 1;
+}
+
+h1 {
+    z-index: 999;
+    position: absolute;
 }
