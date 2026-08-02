@@ -28,7 +28,7 @@ import { Omori } from '/src/omori.js';
 const canvas = document.querySelector("#canvas")
 const ctx = canvas.getContext("2d");
 
-const mainScene = new GameObject({
+export const mainScene = new GameObject({
     position: new Vector2(0,0)
 })
 
@@ -86,12 +86,13 @@ const lightbulb = new Sprite({
 })
 mainScene.addChild(lightbulb);
 
-const omori = new Omori(GridCells(6), GridCells(5));
+const omori = new Omori(GridCells(0), GridCells(0));
 mainScene.addChild(omori);
 
-const input = new Input();
+mainScene.input = new Input();
 
 const update = (delta) => {
+    ctx.clearRect(0, 0, 320, 180);
     mainScene.stepEntry(delta, mainScene);
 }
 

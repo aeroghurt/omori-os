@@ -14,9 +14,12 @@ export class GameObject {
 
     step(_delta) {
         // hallo :D
-    }
+    } 
 
     draw(ctx, x, y) {
+        const drawPosX = x + this.position.x;
+        const drawPosY = y + this.position.y;
+
         this.drawImage(ctx, drawPosX, drawPosY);
         this.children.forEach((child) => child.draw(ctx, drawPosX, drawPosY));
     }

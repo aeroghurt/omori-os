@@ -1,9 +1,18 @@
 import { resources } from '/src/resource.js';
 import { Sprite } from '/src/sprite.js';
-import { GameObject } from "/src/gameObject.js";
-import { Vector2 } from "/src/vector2.js";
-import { Animations } from '/src/animations.js';
+import { Vector2 } from '/src/vector2.js';
+import { GameLoop } from '/src/gameLoop.js';
+import { Input } from '/src/input.js';
+import { LEFT } from '/src/input.js';
+import { RIGHT } from '/src/input.js';
+import { UP } from '/src/input.js';
+import { DOWN } from '/src/input.js';
+import { GridCells } from '/src/grid.js';
+import { isSpaceFree } from '/src/grid.js';
+import { moveTowards } from '/src/moveTowards.js';
+import { walls } from '/src/map.js';
 import { FrameIndexPattern } from "/src/frameIndexPattern.js";
+import { Animations } from '/src/animations.js';
 import { WALK_DOWN } from '/src/omoriAnimations.js';
 import { WALK_LEFT } from '/src/omoriAnimations.js';
 import { WALK_RIGHT } from '/src/omoriAnimations.js';
@@ -12,10 +21,9 @@ import { STAND_DOWN } from '/src/omoriAnimations.js';
 import { STAND_LEFT } from '/src/omoriAnimations.js';
 import { STAND_RIGHT } from '/src/omoriAnimations.js';
 import { STAND_UP } from '/src/omoriAnimations.js';
-import { LEFT } from '/src/input.js';
-import { RIGHT } from '/src/input.js';
-import { UP } from '/src/input.js';
-import { DOWN } from '/src/input.js';
+import { LAPTOP } from '/src/objectAnimations.js';
+import { GameObject } from '/src/gameObject.js';
+import { mainScene } from '/index.js';
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -29,7 +37,7 @@ export class Omori extends GameObject {
             hFrames: 3,
             vFrames: 4,
             frame: 1,
-            position: new Vector2(0,0),
+            position: new Vector2(0, 0),
             animations: new Animations({
                 walkDown: new FrameIndexPattern(WALK_DOWN),
                 walkLeft: new FrameIndexPattern(WALK_LEFT),
@@ -47,12 +55,12 @@ export class Omori extends GameObject {
         this.destinationPosition = this.position.duplicate();
     }
 
-    step(delta, root) {
-
+    step(root) {
+        this.tryMove(root);
     }
 
     tryMove(root) {
-        const {input} = root;
+        const {input} = mainScene;
         if (!input.direction) {
                 if (this.facingDirection === LEFT) this.body.animations.play("standLeft");
                 if (this.facingDirection === RIGHT) this.body.animations.play("standRight");
@@ -82,11 +90,10 @@ export class Omori extends GameObject {
                 this.body.position.y -= 1;
                 this.body.animations.play("walkUp");
             }
-            omoriFacing = input.direction ?? this.facingDirection;
+            this.facingDirection = input.direction ?? this.facingDirection;
             if (isSpaceFree(walls, nextX, nextY)) {
                 this.destinationPosition.x = nextX;
                 this.destinationPosition.y = nextY;
             }
-            this.body.step(delta);
     }
 }
