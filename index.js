@@ -48,9 +48,10 @@ mainScene.addChild(door);
 
 const laptop = new Sprite({
     resource: resources.images.laptop,
-    frameSize: new Vector2(320, 180),
+    frameSize: new Vector2(32, 32),
     hFrames: 2,
     vFrames: 1,
+    frame: 1,
     position: new Vector2(32 * 4, 32 * 2),
     animations: new Animations({
         laptop: new FrameIndexPattern(LAPTOP)
@@ -79,6 +80,9 @@ const tissues = new Sprite({
 })
 mainScene.addChild(tissues);
 
+const omori = new Omori(GridCells(5), GridCells(3));
+mainScene.addChild(omori);
+
 const lightbulb = new Sprite({
     resource: resources.images.lightbulb,
     frameSize: new Vector2(320, 180),
@@ -86,13 +90,11 @@ const lightbulb = new Sprite({
 })
 mainScene.addChild(lightbulb);
 
-const omori = new Omori(GridCells(0), GridCells(0));
-mainScene.addChild(omori);
-
 mainScene.input = new Input();
 
 const update = (delta) => {
     ctx.clearRect(0, 0, 320, 180);
+    laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
 }
 
