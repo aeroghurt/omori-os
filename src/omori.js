@@ -58,17 +58,15 @@ export class Omori extends GameObject {
 
     step(root) {
         this.tryMove(root);
-        this.tryEmitPosition()
+        this.tryEmitPosition();
     }
 
     tryEmitPosition() {
         if (this.lastX === this.position.x && this.lastY === this.position.y) {
             return;
         }
-
         this.lastX = this.position.x;
         this.lastY = this.position.y;
-
         events.emit("OMORI_POSITION", this.position)
     }
 

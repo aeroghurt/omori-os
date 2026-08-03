@@ -22,6 +22,7 @@ import { STAND_LEFT } from '/src/omoriAnimations.js';
 import { STAND_RIGHT } from '/src/omoriAnimations.js';
 import { STAND_UP } from '/src/omoriAnimations.js';
 import { LAPTOP } from '/src/objectAnimations.js';
+import { LIGHTBULB } from '/src/objectAnimations.js';
 import { GameObject } from '/src/gameObject.js';
 import { Omori } from '/src/omori.js';
 import { events } from '/src/events.js';
@@ -94,13 +95,15 @@ mainScene.addChild(omori);
 
 const lightbulb = new Sprite({
     resource: resources.images.lightbulb,
-    frameSize: new Vector2(320, 180),
-    position: new Vector2(32 * 5, -32 * 2)
+    frameSize: new Vector2(32, 96),
+    hFrames: 3,
+    vFrames: 1,
+    position: new Vector2(32 * 5, -32 * 2),
+    animations: new Animations({
+        lightbulb: new FrameIndexPattern(LIGHTBULB)
+    })
 })
 mainScene.addChild(lightbulb);
-
-// const camera = new Camera();
-// mainScene.addChild(camera);
 
 mainScene.input = new Input();
 
@@ -113,7 +116,6 @@ const update = (delta) => {
 const draw = () => {
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
     ctx.save();
-    // ctx.translate(camera.position.x, camera.position.y);
     mainScene.draw(ctx, 0, 0);
     ctx.restore();
 }
