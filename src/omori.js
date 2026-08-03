@@ -24,6 +24,7 @@ import { STAND_UP } from '/src/omoriAnimations.js';
 import { LAPTOP } from '/src/objectAnimations.js';
 import { GameObject } from '/src/gameObject.js';
 import { mainScene } from '/index.js';
+import { events } from '/src/events.js';
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -57,6 +58,18 @@ export class Omori extends GameObject {
 
     step(root) {
         this.tryMove(root);
+        this.tryEmitPosition()
+    }
+
+    tryEmitPosition() {
+        if (this.lastX === this.position.x && this.lastY === this.position.y) {
+            return;
+        }
+
+        this.lastX = this.position.x;
+        this.lastY = this.position.y;
+
+        events.emit("OMORI_POSITION", this.position)
     }
 
     tryMove(root) {

@@ -9,7 +9,8 @@ class Resources {
             notebook: "assets/notebook.png",
             tissues: "assets/tissues.png",
             omori: "assets/omori-spritesheet.png",
-            shadow: "assets/shadow.png"
+            shadow: "assets/shadow.png",
+            mewo: "assets/mewo.png"
         };
         // keep all of the images
         this.images = {};
