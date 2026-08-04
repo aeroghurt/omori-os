@@ -57,6 +57,11 @@ export class Omori extends GameObject {
     }
 
     step(root) {
+        const input = mainScene.input;
+        if (input?.getActionJustPressed("KeyZ")) {
+            console.log("hello")
+            events.emit("OMORI_INTERACT");
+        }
         this.tryMove(root);
         this.tryEmitPosition();
     }

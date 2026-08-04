@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'omori';
+    src: url("assets/OMORI_GAME2.ttf");
+}
+
+@font-face {
+    font-family: 'tiny5';
+    src: url("assets/Tiny5-Regular.ttf");
+}
+
 html, body {
     padding: 0;
     margin: 0;
@@ -12,6 +22,92 @@ canvas {
 }
 
 h1 {
-    z-index: 999;
+    font-family: 'omori';
+    color: white;
+    font-size: 2.5rem;
+    margin: 0;
+    padding: 3%;
+}
+
+p {
+    font-family: 'omori';
+    color: white;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 20%;
+    width: 100%;
+}
+
+.option > img {
+    transform: scale(1.5);
+    padding-left: 5%;
+}
+
+.textbox {
     position: absolute;
+    top: 70%;
+    width: 50%;
+    height: 25%;
+    background-color: black;
+    border: solid 4px white;
+    outline: solid 2px black;
+    margin: 0;
+    padding: 0;
+}
+
+.textbox2 {
+    position: absolute;
+    right: 25%;
+    top: 53%;
+    width: 10%;
+    height: 15%;
+    background-color: black;
+    border: solid 4px white;
+    outline: solid 2px black;
+    margin: 0;
+    padding: 0;
+}
+
+#computer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
+    height: 80%;
+    background-color: black;
+    border: solid 3px grey;
+    margin: 0;
+    padding: 0.5%;
+}
+
+#computer > img {
+    width: 100%;
+    height: 100%;
+}
+
+.computer-hud {
+    display: grid;
+    grid-template-columns: 20% 4fr 15%;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    border-top: solid 2px rgb(211, 211, 211);
+}
+
+.computer-hud > button {
+    background-color: grey;
+    pointer-events: none;
+    height: 80%;
+    margin-left: 2%;
+    margin-right: 5%;
 }

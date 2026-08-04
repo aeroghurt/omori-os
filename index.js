@@ -111,6 +111,7 @@ const update = (delta) => {
     ctx.clearRect(0, 0, 320, 180);
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
+    mainScene.input?.update();
 }
 
 const draw = () => {

@@ -1,6 +1,6 @@
 const Laptop = (rootFrame = 0) => {
     return {
-        duration: 400,
+        duration: 600,
         frames:
             [
                 {
@@ -8,7 +8,7 @@ const Laptop = (rootFrame = 0) => {
                     frame: rootFrame
                 },
                 {
-                    time: 200,
+                    time: 300,
                     frame: rootFrame + 1
                 }
             ]
@@ -19,7 +19,7 @@ export const LAPTOP = Laptop(0);
 
 const Lightbulb = (rootFrame = 0) => {
     return {
-        duration: 900,
+        duration: 1600,
         frames:
             [
                 {
@@ -27,12 +27,16 @@ const Lightbulb = (rootFrame = 0) => {
                     frame: rootFrame
                 },
                 {
-                    time: 300,
+                    time: 400,
                     frame: rootFrame + 1
                 },
                 {
-                    time: 600,
+                    time: 800,
                     frame: rootFrame + 2
+                },
+                {
+                    time: 1200,
+                    frame: rootFrame + 1
                 },
             ]
     }
