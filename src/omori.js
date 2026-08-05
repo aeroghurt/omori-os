@@ -38,7 +38,7 @@ export class Omori extends GameObject {
             hFrames: 3,
             vFrames: 4,
             frame: 1,
-            position: new Vector2(0, 0),
+            position: new Vector2(GridCells(5), GridCells(3)),
             animations: new Animations({
                 walkDown: new FrameIndexPattern(WALK_DOWN),
                 walkLeft: new FrameIndexPattern(WALK_LEFT),
@@ -76,40 +76,56 @@ export class Omori extends GameObject {
     }
 
     tryMove(root) {
+        const distance = moveTowards(this.body, this.destinationPosition, 1);
+        const gridSize = 32;
+        let nextX = this.body.position.x;
+        let nextY = this.body.position.y;
+        let canMove = true;
+
         const {input} = mainScene;
+
+        if (walls.has(`${nextX},${nextY}`)) {
+            console.log("blocked")
+        }
+
         if (!input.direction) {
-                if (this.facingDirection === LEFT) this.body.animations.play("standLeft");
-                if (this.facingDirection === RIGHT) this.body.animations.play("standRight");
-                if (this.facingDirection === UP) this.body.animations.play("standUp");
-                if (this.facingDirection === DOWN) this.body.animations.play("standDown");
+                if (this.facingDirection === LEFT) {
+                    this.body.animations.play("standLeft");
+                }
+                if (this.facingDirection === RIGHT) {
+                    this.body.animations.play("standRight");
+                }
+                if (this.facingDirection === UP) {
+                    this.body.animations.play("standUp");
+                }
+                if (this.facingDirection === DOWN) {
+                    this.body.animations.play("standDown");
+                }
             }
-        
-            const distance = moveTowards(this.body, this.destinationPosition, 1);
-            
-            let nextX = this.destinationPosition.x;
-            let nextY = this.destinationPosition.y;
-            const gridSize = 32;
-        
+        if (canMove == true) {
             if (input.direction === DOWN) {
                 this.body.position.y += 1;
                 this.body.animations.play("walkDown");
+                nextY += gridSize;
             }
             if (input.direction === LEFT) {
                 this.body.position.x -= 1;
                 this.body.animations.play("walkLeft");
+                nextX -= gridSize;
             }
             if (input.direction === RIGHT) {
                 this.body.position.x += 1;
                 this.body.animations.play("walkRight");
+                nextX += gridSize;
             }
             if (input.direction === UP) {
                 this.body.position.y -= 1;
                 this.body.animations.play("walkUp");
+                nextY -= gridSize;
             }
-            this.facingDirection = input.direction ?? this.facingDirection;
-            if (isSpaceFree(walls, nextX, nextY)) {
-                this.destinationPosition.x = nextX;
-                this.destinationPosition.y = nextY;
-            }
+        }
+        
+        
+        this.facingDirection = input.direction ?? this.facingDirection;
     }
 }

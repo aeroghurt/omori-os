@@ -30,6 +30,8 @@ import { Camera } from '/src/camera.js'
 
 const canvas = document.querySelector("#canvas")
 const ctx = canvas.getContext("2d");
+const computer = document.getElementById("laptop")
+computer.style.visibility = 'hidden'
 
 export const mainScene = new GameObject({
     position: new Vector2(0,0)
@@ -90,7 +92,7 @@ const mewo = new Sprite({
 })
 mainScene.addChild(mewo);
 
-const omori = new Omori(GridCells(5), GridCells(3));
+const omori = new Omori(0, 0);
 mainScene.addChild(omori);
 
 const lightbulb = new Sprite({
@@ -124,3 +126,15 @@ const draw = () => {
 const gameLoop = new GameLoop(update, draw);
 
 gameLoop.start();
+
+function updateTime() {
+    let currentTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
+    let time = document.querySelector(".time");
+    time.innerHTML = currentTime
+}
+
+setInterval(updateTime, 1000);
+
+function bootLaptop() {
+    computer.style.visibility = 'visible';
+}
