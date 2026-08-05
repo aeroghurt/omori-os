@@ -76,6 +76,19 @@ p {
     padding: 0;
 }
 
+.textbox3 {
+    position: absolute;
+    right: 25%;
+    top: 35%;
+    width: 30%;
+    height: 32%;
+    background-color: black;
+    border: solid 4px white;
+    outline: solid 2px black;
+    margin: 0;
+    padding: 0;
+}
+
 #computer {
     position: absolute;
     display: flex;

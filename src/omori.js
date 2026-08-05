@@ -25,6 +25,8 @@ import { LAPTOP } from '/src/objectAnimations.js';
 import { GameObject } from '/src/gameObject.js';
 import { mainScene } from '/index.js';
 import { events } from '/src/events.js';
+import { bootLaptop } from '/index.js';
+import { laptop } from '/index.js';
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -58,12 +60,15 @@ export class Omori extends GameObject {
 
     step(root) {
         const input = mainScene.input;
-        if (input?.getActionJustPressed("KeyZ")) {
-            console.log("hello")
-            events.emit("OMORI_INTERACT");
-        }
         this.tryMove(root);
         this.tryEmitPosition();
+        if (input?.getActionJustPressed("KeyZ")) {
+            this.omoriInteract();
+        }
+    }
+
+    ready() {
+        return;
     }
 
     tryEmitPosition() {
@@ -75,8 +80,11 @@ export class Omori extends GameObject {
         events.emit("OMORI_POSITION", this.position)
     }
 
+    omoriInteract() {
+        this.interactLaptop()
+    }
+
     tryMove(root) {
-        const distance = moveTowards(this.body, this.destinationPosition, 1);
         const gridSize = 32;
         let nextX = this.body.position.x;
         let nextY = this.body.position.y;
@@ -127,5 +135,12 @@ export class Omori extends GameObject {
         
         
         this.facingDirection = input.direction ?? this.facingDirection;
+    }
+    interactLaptop() {
+        let distFromLaptopX = (this.body.position.x - laptop.position.x)
+        let distFromLaptopY = (this.body.position.y - laptop.position.y)
+        if (distFromLaptopX <= 16 && distFromLaptopY <= 16 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
+            bootLaptop();
+        }
     }
 }

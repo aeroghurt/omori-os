@@ -28,9 +28,11 @@ import { Omori } from '/src/omori.js';
 import { events } from '/src/events.js';
 import { Camera } from '/src/camera.js'
 
-const canvas = document.querySelector("#canvas")
+const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-const computer = document.getElementById("laptop")
+const computer = document.getElementById("laptop");
+const sketchbook = document.getElementById("sketchpad");
+
 computer.style.visibility = 'hidden'
 
 export const mainScene = new GameObject({
@@ -51,7 +53,7 @@ const door = new Sprite({
 })
 mainScene.addChild(door);
 
-const laptop = new Sprite({
+export const laptop = new Sprite({
     resource: resources.images.laptop,
     frameSize: new Vector2(32, 32),
     hFrames: 2,
@@ -94,6 +96,7 @@ mainScene.addChild(mewo);
 
 const omori = new Omori(0, 0);
 mainScene.addChild(omori);
+omori.ready()
 
 const lightbulb = new Sprite({
     resource: resources.images.lightbulb,
@@ -135,6 +138,12 @@ function updateTime() {
 
 setInterval(updateTime, 1000);
 
-function bootLaptop() {
+export function bootLaptop() {
     computer.style.visibility = 'visible';
+    console.log("laptop visible")
+}
+
+export function openSketchbook() {
+    computer.style.visibility = 'visible';
+    console.log("laptop visible")
 }
