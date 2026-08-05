@@ -33,7 +33,8 @@ const ctx = canvas.getContext("2d");
 const computer = document.getElementById("laptop");
 const sketchbook = document.getElementById("sketchpad");
 
-computer.style.visibility = 'hidden'
+computer.style.visibility = 'hidden';
+sketchbook.style.visibility = 'hidden';
 
 export const mainScene = new GameObject({
     position: new Vector2(0,0)
@@ -73,7 +74,7 @@ const shadow = new Sprite({
 })
 mainScene.addChild(shadow);
 
-const notebook = new Sprite({
+export const notebook = new Sprite({
     resource: resources.images.notebook,
     frameSize: new Vector2(320, 180),
     position: new Vector2(32 * 6, 32 * 2)
@@ -144,6 +145,48 @@ export function bootLaptop() {
 }
 
 export function openSketchbook() {
-    computer.style.visibility = 'visible';
-    console.log("laptop visible")
+    sketchbook.style.visibility = 'visible';
+    console.log("sketchbook visible")
+}
+
+// Make the DIV element draggable:
+dragElement(document.getElementById("computer"));
+dragElement(document.getElementById("sketchbook"));
+
+function dragElement(element) {
+  var initialX = 0;
+  var initialY = 0;
+  var currentX = 0;
+  var currentY = 0;
+
+  if (document.getElementById(element.id + "header")) {
+    document.getElementById(element.id + "header").onmousedown = startDragging;
+  } else {
+    element.onmousedown = startDragging;
+  }
+
+  function startDragging(e) {
+    e = e || window.event;
+    e.preventDefault();
+    initialX = e.clientX;
+    initialY = e.clientY;
+    document.onmouseup = stopDragging;
+    document.onmousemove = dragElement;
+  }
+
+  function dragElement(e) {
+    e = e || window.event;
+    e.preventDefault();
+    currentX = initialX - e.clientX;
+    currentY = initialY - e.clientY;
+    initialX = e.clientX;
+    initialY = e.clientY;
+    element.style.top = (element.offsetTop - currentY) + "px";
+    element.style.left = (element.offsetLeft - currentX) + "px";
+  }
+
+  function stopDragging() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
 }

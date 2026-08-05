@@ -44,11 +44,20 @@ p {
     align-items: center;
     gap: 20%;
     width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .option > img {
-    transform: scale(1.5);
-    padding-left: 5%;
+    width: 32px;
+    height: 32px;
+    animation: ltr 1s infinite alternate;
+}
+
+@keyframes ltr {
+    100% {
+        transform: translateX(15px);
+    }
 }
 
 .textbox {
@@ -122,4 +131,17 @@ p {
     height: 80%;
     margin-left: 2%;
     margin-right: 5%;
+}
+
+#sketchbook {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
+    height: 80%;
+    background-color: black;
+    border: solid 3px grey;
+    margin: 0;
+    padding: 0.5%;
 }

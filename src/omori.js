@@ -27,6 +27,8 @@ import { mainScene } from '/index.js';
 import { events } from '/src/events.js';
 import { bootLaptop } from '/index.js';
 import { laptop } from '/index.js';
+import { openSketchbook } from '/index.js';
+import { notebook } from '/index.js';
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -81,7 +83,8 @@ export class Omori extends GameObject {
     }
 
     omoriInteract() {
-        this.interactLaptop()
+        this.interactLaptop();
+        this.interactSketchbook();
     }
 
     tryMove(root) {
@@ -141,6 +144,14 @@ export class Omori extends GameObject {
         let distFromLaptopY = (this.body.position.y - laptop.position.y)
         if (distFromLaptopX <= 16 && distFromLaptopY <= 16 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
             bootLaptop();
+        }
+    }
+
+    interactSketchbook() {
+        let distFromSketchbookX = (this.body.position.x - notebook.position.x)
+        let distFromSketchbookY = (this.body.position.y - notebook.position.y)
+        if (distFromSketchbookX <= 16 && distFromSketchbookY <= 16 && distFromSketchbookX >= 0 && distFromSketchbookY >= 0) {
+            openSketchbook();
         }
     }
 }
