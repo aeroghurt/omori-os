@@ -140,16 +140,16 @@ export class Omori extends GameObject {
         this.facingDirection = input.direction ?? this.facingDirection;
     }
     interactLaptop() {
-        let distFromLaptopX = (this.body.position.x - laptop.position.x)
-        let distFromLaptopY = (this.body.position.y - laptop.position.y)
+        let distFromLaptopX = Math.abs(this.body.position.x - laptop.position.x)
+        let distFromLaptopY = Math.abs(this.body.position.y - laptop.position.y)
         if (distFromLaptopX <= 16 && distFromLaptopY <= 16 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
             bootLaptop();
         }
     }
 
     interactSketchbook() {
-        let distFromSketchbookX = (this.body.position.x - notebook.position.x)
-        let distFromSketchbookY = (this.body.position.y - notebook.position.y)
+        let distFromSketchbookX = Math.abs(this.body.position.x - notebook.position.x)
+        let distFromSketchbookY = Math.abs(this.body.position.y - notebook.position.y)
         if (distFromSketchbookX <= 16 && distFromSketchbookY <= 16 && distFromSketchbookX >= 0 && distFromSketchbookY >= 0) {
             openSketchbook();
         }

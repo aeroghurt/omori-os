@@ -136,7 +136,6 @@ p {
 #sketchbook {
     position: absolute;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     width: 55%;
     height: 80%;
