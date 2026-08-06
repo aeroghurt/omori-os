@@ -145,7 +145,6 @@ setInterval(updateTime, 1000);
 
 export function bootLaptop() {
     laptop_start.style.visibility = 'visible';
-    let revealText = "You booted up your laptop.";
     let newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
     newText.init()
 }

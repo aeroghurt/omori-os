@@ -1,6 +1,6 @@
 export class RevealingText {
     constructor(element, text) {
-        this.element = element
+        this.element = element;
         this.text = text;
         this.speed = 70;
 
@@ -9,13 +9,13 @@ export class RevealingText {
     }
 
     revealOneChar(list) {
-        console.log(list)
-        const next = Array.from(list).splice(0,1)[0];
+        const array = Array.from(list)
+        const next = array.shift();
         next.span.classList.add("revealed");
 
-        if (list.length > 0) {
+        if (array.length > 0) {
             this.timeout = setTimeout(() => {
-                this.revealOneChar(next)
+                this.revealOneChar(array)
             }, next.delayAfter)
         } else {
             this.isDone = true;
@@ -24,7 +24,6 @@ export class RevealingText {
 
     init() {
         let characters = [];
-        console.log(this.text)
         this.text.split("").forEach(character => {
             let span = document.createElement("span");
             span.textContent = character;
@@ -36,6 +35,5 @@ export class RevealingText {
         });
 
         this.revealOneChar(characters);
-        console.log(characters)
     }
 }
