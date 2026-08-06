@@ -21,6 +21,14 @@ canvas {
     z-index: 1;
 }
 
+.typewriter span {
+    opacity: 0;
+}
+
+.typewriter span.revealed {
+    opacity: 1;
+}
+
 h1 {
     font-family: 'omori';
     color: white;
@@ -48,7 +56,7 @@ p {
     margin: 0;
 }
 
-.option > img {
+.backnforth {
     width: 32px;
     height: 32px;
     animation: ltr 1s infinite alternate;

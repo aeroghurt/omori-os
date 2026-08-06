@@ -27,11 +27,14 @@ import { GameObject } from '/src/gameObject.js';
 import { Omori } from '/src/omori.js';
 import { events } from '/src/events.js';
 import { Camera } from '/src/camera.js'
+import { RevealingText } from '/src/revealingText.js';
+import { typewriter } from '/src/typewriter.js';
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 const computer = document.getElementById("laptop");
 const sketchbook = document.getElementById("sketchpad");
+const laptop_start = document.getElementById("laptop-start");
 
 computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
@@ -140,8 +143,7 @@ function updateTime() {
 setInterval(updateTime, 1000);
 
 export function bootLaptop() {
-    computer.style.visibility = 'visible';
-    console.log("laptop visible")
+    laptop_start.style.visibility = 'visible';
 }
 
 export function openSketchbook() {
@@ -190,3 +192,4 @@ function dragElement(element) {
     document.onmousemove = null;
   }
 }
+

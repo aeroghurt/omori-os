@@ -29,6 +29,8 @@ import { bootLaptop } from '/index.js';
 import { laptop } from '/index.js';
 import { openSketchbook } from '/index.js';
 import { notebook } from '/index.js';
+import { RevealingText } from '/src/revealingText.js';
+import { typewriter } from '/src/typewriter.js';
 
 export class Omori extends GameObject {
     constructor(x,y) {
