@@ -31,6 +31,7 @@ import { openSketchbook } from '/index.js';
 import { notebook } from '/index.js';
 import { RevealingText } from '/src/revealingText.js';
 import { newText } from '/index.js';
+import { laptopSelection } from '/index.js';
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -69,6 +70,11 @@ export class Omori extends GameObject {
         if (input?.getActionJustPressed("KeyZ")) {
             this.omoriInteract();
         }
+        if (input?.getActionJustPressed("ArrowDown")) {
+            let parent = this.interactSketchbook() || this.interactLaptop();
+            console.log(parent)
+            this.select(parent);
+        }
     }
 
     ready() {
@@ -88,6 +94,11 @@ export class Omori extends GameObject {
         this.interactLaptop();
         this.interactSketchbook();
         // why are you even reading this code?? there's nothing to learn from here.
+    }
+
+    select(parent) {
+        const children = [...parent.children];
+        console.log(children);
     }
 
     tryMove(root) {
@@ -145,6 +156,7 @@ export class Omori extends GameObject {
         let distFromLaptopY = Math.abs(this.body.position.y - laptop.position.y)
         if (distFromLaptopX <= 16 && distFromLaptopY <= 16 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
             bootLaptop();
+            return document.querySelector(".textbox3");
         }
     }
 
@@ -153,6 +165,7 @@ export class Omori extends GameObject {
         let distFromSketchbookY = Math.abs(this.body.position.y - notebook.position.y)
         if (distFromSketchbookX <= 16 && distFromSketchbookY <= 16 && distFromSketchbookX >= 0 && distFromSketchbookY >= 0) {
             openSketchbook();
+            return document.querySelector(".textbox2");
         }
     }
 }

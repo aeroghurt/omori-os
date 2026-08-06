@@ -1,3 +1,4 @@
+// disclaimer: some of the worst code you've ever seen
 import { resources } from '/src/resource.js';
 import { Sprite } from '/src/sprite.js';
 import { Vector2 } from '/src/vector2.js';
@@ -125,8 +126,10 @@ const update = (delta) => {
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
     if (newText.isDone == true) {
+        document.querySelector("#laptop-start>.backnforth").style.visibility = 'visible';
         if (mainScene.input?.getActionJustPressed("KeyZ")) {
-            computer.style.visibility = 'hidden';
+            document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
+            computer.style.visibility = 'visible';
             laptop_start.style.visibility = 'hidden';
         }
     }
@@ -153,6 +156,7 @@ setInterval(updateTime, 1000);
 
 export function bootLaptop() {
     laptop_start.style.visibility = 'visible';
+    document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden'
     if (newText.isDone == false && newText.oneInstance == false) {
         newText.init();
     }
@@ -208,3 +212,15 @@ function dragElement(element) {
   }
 }
 
+
+export function laptopSelection(option) {
+    if (option == 1) {
+        console.log("chose to stare at screen")
+    }
+    if (option == 2) {
+        console.log("chose to open journal")
+    }
+    if (option == 3) {
+        console.log("chose to log off")
+    }
+}
