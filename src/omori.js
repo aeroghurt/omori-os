@@ -37,6 +37,7 @@ let input = null;
 
 let selectionMenu = false;
 let selected = null;
+let keyDirection = null;
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -112,18 +113,39 @@ export class Omori extends GameObject {
             document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
             onkeydown = (event) => {
                 if (event.key == "ArrowDown") {
+                    keyDirection = "down"
                     selected = this.selecting(children)
+                    for (let i = 0; i < children.length; i++) {
+                        document.getElementsByClassName("laptopOptions")[i].style.visibility = "hidden";
+                        document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
+                    }
+                }
+                if (event.key == "ArrowUp") {
+                    keyDirection = "up"
+                    selected = this.selecting(children)
+                    for (let i = 0; i < children.length; i++) {
+                        document.getElementsByClassName("laptopOptions")[i].style.visibility = "hidden";
+                        document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
+                    }
                 }
             }
-            
         }
     }
 
     selecting(children) {
-        if (selected < (children.length - 1)) {
-            selected += 1
-        } else {
-            selected = 0
+        if (keyDirection == "down") {
+            if (selected < (children.length - 1)) {
+                selected += 1
+            } else {
+                selected = 0
+            }
+        }
+        if (keyDirection == "up") {
+            if (selected > 0) {
+                selected -= 1
+            } else {
+                selected = (children.length - 1);
+            }
         }
         return selected
     }
