@@ -85,8 +85,11 @@ export class Omori extends GameObject {
     }
 
     omoriInteract() {
-        this.interactLaptop();
+        if (isDone == false) {
+            this.interactLaptop();
+        }
         this.interactSketchbook();
+        // why are you even reading this code?? there's nothing to learn from here.
     }
 
     tryMove(root) {

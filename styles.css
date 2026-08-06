@@ -62,6 +62,11 @@ p {
     animation: ltr 1s infinite alternate;
 }
 
+.textbox > .backnforth {
+    align-self: end;
+    justify-self: end;
+}
+
 @keyframes ltr {
     100% {
         transform: translateX(15px);
@@ -70,6 +75,7 @@ p {
 
 .textbox {
     position: absolute;
+    display: flex;
     top: 70%;
     width: 50%;
     height: 25%;

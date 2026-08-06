@@ -145,13 +145,18 @@ setInterval(updateTime, 1000);
 
 export function bootLaptop() {
     laptop_start.style.visibility = 'visible';
-    let newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
-    newText.init()
+    const newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
+    newText.init();
+    if (newText.isDone == true) {
+        if (input?.getActionJustPressed("KeyZ")) {
+            computer.style.visibility = 'hidden';
+            laptop_start.style.visibility = 'hidden';
+        }
+    }
 }
 
 export function openSketchbook() {
     sketchbook.style.visibility = 'visible';
-    console.log("sketchbook visible")
 }
 
 // Make the element draggable:
