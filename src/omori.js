@@ -30,7 +30,7 @@ import { laptop } from '/index.js';
 import { openSketchbook } from '/index.js';
 import { notebook } from '/index.js';
 import { RevealingText } from '/src/revealingText.js';
-import { typewriter } from '/src/typewriter.js';
+import { newText } from '/index.js';
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -85,9 +85,7 @@ export class Omori extends GameObject {
     }
 
     omoriInteract() {
-        if (isDone == false) {
-            this.interactLaptop();
-        }
+        this.interactLaptop();
         this.interactSketchbook();
         // why are you even reading this code?? there's nothing to learn from here.
     }

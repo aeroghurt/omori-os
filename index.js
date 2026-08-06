@@ -37,6 +37,8 @@ const sketchbook = document.getElementById("sketchpad");
 const laptop_start = document.querySelector("#laptop-start");
 const laptop_start_text = document.querySelector("#laptop-start>h1");
 
+export const newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
+
 computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
 
@@ -122,6 +124,12 @@ const update = (delta) => {
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
+    if (newText.isDone == true) {
+        if (mainScene.input?.getActionJustPressed("KeyZ")) {
+            computer.style.visibility = 'hidden';
+            laptop_start.style.visibility = 'hidden';
+        }
+    }
 }
 
 const draw = () => {
@@ -145,13 +153,12 @@ setInterval(updateTime, 1000);
 
 export function bootLaptop() {
     laptop_start.style.visibility = 'visible';
-    const newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
-    newText.init();
-    if (newText.isDone == true) {
-        if (input?.getActionJustPressed("KeyZ")) {
-            computer.style.visibility = 'hidden';
-            laptop_start.style.visibility = 'hidden';
-        }
+    if (newText.isDone == false && newText.oneInstance == false) {
+        newText.init();
+    }
+    else if (newText.isDone == true) {
+        computer.style.visibility = 'visible';
+        laptop_start.style.visibility = 'hidden';
     }
 }
 

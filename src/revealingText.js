@@ -6,6 +6,7 @@ export class RevealingText {
 
         this.timeout = null;
         this.isDone = false;
+        this.oneInstance = false;
     }
 
     revealOneChar(list) {
@@ -15,7 +16,8 @@ export class RevealingText {
 
         if (array.length > 0) {
             this.timeout = setTimeout(() => {
-                this.revealOneChar(array)
+                this.revealOneChar(array);
+                this.oneInstance = true;
             }, next.delayAfter)
         } else {
             this.isDone = true;
