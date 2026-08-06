@@ -21,11 +21,11 @@ canvas {
     z-index: 1;
 }
 
-.typewriter span {
+span {
     opacity: 0;
 }
 
-.typewriter span.revealed {
+.revealed {
     opacity: 1;
 }
 

@@ -34,7 +34,8 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 const computer = document.getElementById("laptop");
 const sketchbook = document.getElementById("sketchpad");
-const laptop_start = document.getElementById("laptop-start");
+const laptop_start = document.querySelector("#laptop-start");
+const laptop_start_text = document.querySelector("#laptop-start>h1");
 
 computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
@@ -144,6 +145,9 @@ setInterval(updateTime, 1000);
 
 export function bootLaptop() {
     laptop_start.style.visibility = 'visible';
+    let revealText = "You booted up your laptop.";
+    let newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
+    newText.init()
 }
 
 export function openSketchbook() {
@@ -151,7 +155,7 @@ export function openSketchbook() {
     console.log("sketchbook visible")
 }
 
-// Make the DIV element draggable:
+// Make the element draggable:
 dragElement(document.getElementById("computer"));
 dragElement(document.getElementById("sketchbook"));
 

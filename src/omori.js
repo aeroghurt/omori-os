@@ -137,8 +137,6 @@ export class Omori extends GameObject {
                 nextY -= gridSize;
             }
         }
-        
-        
         this.facingDirection = input.direction ?? this.facingDirection;
     }
     interactLaptop() {
