@@ -33,6 +33,11 @@ import { RevealingText } from '/src/revealingText.js';
 import { newText } from '/index.js';
 import { laptopSelection } from '/index.js';
 
+let input = null;
+
+let selectionMenu = false;
+let selected = null;
+
 export class Omori extends GameObject {
     constructor(x,y) {
         super({
@@ -64,15 +69,14 @@ export class Omori extends GameObject {
     }
 
     step(root) {
-        const input = mainScene.input;
+        input = mainScene.input;
         this.tryMove(root);
         this.tryEmitPosition();
         if (input?.getActionJustPressed("KeyZ")) {
             this.omoriInteract();
         }
-        if (input?.getActionJustPressed("ArrowDown")) {
+        if (input?.getActionJustPressed("ArrowDown") && selectionMenu == false) {
             let parent = this.interactSketchbook() || this.interactLaptop();
-            console.log(parent)
             this.select(parent);
         }
     }
@@ -97,8 +101,31 @@ export class Omori extends GameObject {
     }
 
     select(parent) {
+        selectionMenu = true
         const children = [...parent.children];
         console.log(children);
+        if (parent.classList == "textbox3") {
+            for (let i = 0; i < children.length; i++) {
+                document.getElementsByClassName("laptopOptions")[i].style.visibility = "hidden";
+            }
+            selected = 0
+            document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
+            onkeydown = (event) => {
+                if (event.key == "ArrowDown") {
+                    selected = this.selecting(children)
+                }
+            }
+            
+        }
+    }
+
+    selecting(children) {
+        if (selected < (children.length - 1)) {
+            selected += 1
+        } else {
+            selected = 0
+        }
+        return selected
     }
 
     tryMove(root) {
