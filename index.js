@@ -40,9 +40,14 @@ const laptop_start_text = document.querySelector("#laptop-start>h1");
 
 export const arrowHands = document.querySelectorAll(".backnforth");
 export const newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
+export const staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
 
 computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
+
+document.querySelectorAll(".textbox").forEach(element => {
+    element.style.visibility = 'hidden';
+})
 
 export const mainScene = new GameObject({
     position: new Vector2(0,0)
@@ -131,6 +136,15 @@ const update = (delta) => {
         if (mainScene.input?.getActionJustPressed("KeyZ")) {
             computer.style.visibility = 'visible';
             laptop_start.style.visibility = 'hidden';
+            document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
+        }
+    }
+    if (newText.isDone == true) {
+        document.querySelector("#stared>.backnforth").style.visibility = 'visible';
+        if (mainScene.input?.getActionJustPressed("KeyZ")) {
+            computer.style.visibility = 'visible';
+            laptop_start.style.visibility = 'hidden';
+            document.querySelector("#stared>.backnforth").style.visibility = 'hidden';
         }
     }
 }
@@ -156,12 +170,13 @@ setInterval(updateTime, 1000);
 
 export function bootLaptop() {
     laptop_start.style.visibility = 'visible';
-    document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden'
+    document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
     if (!newText.isDone && !newText.oneInstance) {
         newText.init();
     }
     else if (newText.isDone) {
         computer.style.visibility = 'visible';
+        document.getElementsByClassName("textbox")[1].style.visibility = 'visible';
         laptop_start.style.visibility = 'hidden';
         arrowHands.forEach(arrowHands => {
             arrowHands.style.visibility = 'hidden';
@@ -219,6 +234,18 @@ function dragElement(element) {
 export function laptopSelection(selected) {
     switch (selected) {
         case 0:
+            document.getElementsByClassName("textbox")[2].style.visibility = 'visible';
+            if (!staredText.isDone && !staredText.oneInstance) {
+                staredText.init();
+            }
+            else if (staredText.isDone) {
+                computer.style.visibility = 'visible';
+                document.getElementsByClassName("textbox")[1].style.visibility = 'visible';
+                laptop_start.style.visibility = 'hidden';
+                arrowHands.forEach(arrowHands => {
+                arrowHands.style.visibility = 'hidden';
+            })
+            }
             console.log("Chose to stare at screen");
             break
         case 1:
