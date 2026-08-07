@@ -104,7 +104,6 @@ export class Omori extends GameObject {
     select(parent) {
         selectionMenu = true
         const children = [...parent.children];
-        console.log(children);
         if (parent.classList == "textbox3") {
             for (let i = 0; i < children.length; i++) {
                 document.getElementsByClassName("laptopOptions")[i].style.visibility = "hidden";
@@ -128,6 +127,13 @@ export class Omori extends GameObject {
                         document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
                     }
                 }
+                if (event.key == "ArrowLeft") {
+                    keyDirection = "none";
+                    console.log("hello");
+                    selected = this.selecting(children)
+                    document.querySelector(".textbox3").style.visibility = "hidden";
+                    document.querySelector(".textbox").style.visibility = "hidden";
+                }
             }
         }
     }
@@ -146,6 +152,9 @@ export class Omori extends GameObject {
             } else {
                 selected = (children.length - 1);
             }
+        }
+        if (keyDirection == "none") {
+            return;
         }
         return selected
     }
