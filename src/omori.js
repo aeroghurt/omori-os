@@ -85,8 +85,6 @@ export class Omori extends GameObject {
             arrowHands.forEach(arrowHands => {
                 arrowHands.style.visibility = 'hidden';
             })
-            selected = 0
-            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
         }
     }
 
@@ -110,13 +108,14 @@ export class Omori extends GameObject {
     }
 
     select(parent) {
-        selectionMenu = true;
-        selected = 0
+        selectionMenu = true
         if (selectionMenu == true) {
             const children = [...parent.children];
             for (let i = 0; i < children.length; i++) {
                     document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
                 }
+            selected = 0
+            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
             if (parent.classList == "textbox3") {
                 document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
                 onkeydown = (event) => {
