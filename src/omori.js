@@ -39,7 +39,6 @@ let input = null;
 let selectionMenu = false;
 let selected = null;
 let keyDirection = null;
-let isInUI = false;
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -73,7 +72,7 @@ export class Omori extends GameObject {
 
     step(root) {
         input = mainScene.input;
-        if (isInUI == false) {
+        if (selectionMenu == false) {
             this.tryMove(root);   
         }
         this.tryEmitPosition();
@@ -83,6 +82,11 @@ export class Omori extends GameObject {
         if (input?.getActionJustPressed("ArrowDown") && selectionMenu == false) {
             let parent = this.interactSketchbook() || this.interactLaptop();
             this.select(parent);
+            arrowHands.forEach(arrowHands => {
+                arrowHands.style.visibility = 'hidden';
+            })
+            selected = 0
+            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
         }
     }
 
@@ -106,15 +110,13 @@ export class Omori extends GameObject {
     }
 
     select(parent) {
-        isInUI = true;
-        selectionMenu = true
-        if (isInUI == true) {
+        selectionMenu = true;
+        selected = 0
+        if (selectionMenu == true) {
             const children = [...parent.children];
             for (let i = 0; i < children.length; i++) {
                     document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
                 }
-            selected = 0
-            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
             if (parent.classList == "textbox3") {
                 document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
                 onkeydown = (event) => {
@@ -135,6 +137,7 @@ export class Omori extends GameObject {
                         }
                     }
                     if (event.key == "z") {
+                        selectionMenu = false;
                         keyDirection = "none";
                         selected = this.selecting(children);
                         document.querySelector(".textbox3").style.visibility = 'hidden';
