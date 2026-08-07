@@ -36,7 +36,7 @@ import { arrowHands } from '/index.js';
 
 let input = null;
 
-let selectionMenu = false;
+export let selectionMenu = false;
 let selected = null;
 let keyDirection = null;
 
@@ -72,19 +72,19 @@ export class Omori extends GameObject {
 
     step(root) {
         input = mainScene.input;
-        if (selectionMenu == false) {
+        if (!selectionMenu) {
             this.tryMove(root);   
         }
         this.tryEmitPosition();
         if (input?.getActionJustPressed("KeyZ")) {
             this.omoriInteract();
-        }
-        if (input?.getActionJustPressed("ArrowDown") && selectionMenu == false) {
-            let parent = this.interactSketchbook() || this.interactLaptop();
-            this.select(parent);
             arrowHands.forEach(arrowHands => {
                 arrowHands.style.visibility = 'hidden';
             })
+        }
+        if ((input?.getActionJustPressed("ArrowDown") && !selectionMenu) || (input?.getActionJustPressed("ArrowUp") && !selectionMenu)) {
+            let parent = this.interactSketchbook() || this.interactLaptop();
+            this.select(parent);
         }
     }
 
@@ -108,8 +108,10 @@ export class Omori extends GameObject {
     }
 
     select(parent) {
-        selectionMenu = true
-        if (selectionMenu == true) {
+        if (newText.isDone && !selectionMenu && window.getComputedStyle(parent).visibility == 'visible') {
+            selectionMenu = true
+        }
+        if (selectionMenu) {
             const children = [...parent.children];
             for (let i = 0; i < children.length; i++) {
                     document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
@@ -136,7 +138,6 @@ export class Omori extends GameObject {
                         }
                     }
                     if (event.key == "z") {
-                        selectionMenu = false;
                         keyDirection = "none";
                         selected = this.selecting(children);
                         document.querySelector(".textbox3").style.visibility = 'hidden';
@@ -145,11 +146,11 @@ export class Omori extends GameObject {
                             arrowHands.style.visibility = 'hidden';
                         })
                         laptopSelection(selected);
+                        selectionMenu = false;
                     }
                 }
             }
         }
-        
     }
 
     selecting(children) {
@@ -229,6 +230,7 @@ export class Omori extends GameObject {
         if (distFromLaptopX <= 16 && distFromLaptopY <= 16 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
             bootLaptop();
             return document.querySelector(".textbox3");
+            selectionMenu = true;
         }
     }
 

@@ -157,10 +157,10 @@ setInterval(updateTime, 1000);
 export function bootLaptop() {
     laptop_start.style.visibility = 'visible';
     document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden'
-    if (newText.isDone == false && newText.oneInstance == false) {
+    if (!newText.isDone && !newText.oneInstance) {
         newText.init();
     }
-    else if (newText.isDone == true) {
+    else if (newText.isDone) {
         computer.style.visibility = 'visible';
         laptop_start.style.visibility = 'hidden';
         arrowHands.forEach(arrowHands => {
