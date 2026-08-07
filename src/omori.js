@@ -137,7 +137,7 @@ export class Omori extends GameObject {
                             document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
                         }
                     }
-                    if (event.key == "z") {
+                    if (event.key == "z" && window.getComputedStyle(parent).visibility == 'visible') {
                         keyDirection = "none";
                         selected = this.selecting(children);
                         document.querySelector(".textbox3").style.visibility = 'hidden';
