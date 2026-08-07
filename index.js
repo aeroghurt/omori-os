@@ -38,6 +38,7 @@ const sketchbook = document.getElementById("sketchpad");
 const laptop_start = document.querySelector("#laptop-start");
 const laptop_start_text = document.querySelector("#laptop-start>h1");
 
+export const arrowHands = document.querySelectorAll(".backnforth");
 export const newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
 
 computer.style.visibility = 'hidden';
@@ -128,7 +129,6 @@ const update = (delta) => {
     if (newText.isDone == true) {
         document.querySelector("#laptop-start>.backnforth").style.visibility = 'visible';
         if (mainScene.input?.getActionJustPressed("KeyZ")) {
-            document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
             computer.style.visibility = 'visible';
             laptop_start.style.visibility = 'hidden';
         }
@@ -163,6 +163,9 @@ export function bootLaptop() {
     else if (newText.isDone == true) {
         computer.style.visibility = 'visible';
         laptop_start.style.visibility = 'hidden';
+        arrowHands.forEach(arrowHands => {
+            arrowHands.style.visibility = 'hidden';
+        })
     }
 }
 
@@ -213,14 +216,16 @@ function dragElement(element) {
 }
 
 
-export function laptopSelection(option) {
-    if (option == 1) {
-        console.log("chose to stare at screen")
-    }
-    if (option == 2) {
-        console.log("chose to open journal")
-    }
-    if (option == 3) {
-        console.log("chose to log off")
+export function laptopSelection(selected) {
+    switch (selected) {
+        case 0:
+            console.log("Chose to stare at screen");
+            break
+        case 1:
+            console.log("Chose to look at journal");
+            break
+        case 2:
+            console.log("Chose to log off");
+            break
     }
 }

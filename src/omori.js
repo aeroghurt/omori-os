@@ -32,12 +32,14 @@ import { notebook } from '/index.js';
 import { RevealingText } from '/src/revealingText.js';
 import { newText } from '/index.js';
 import { laptopSelection } from '/index.js';
+import { arrowHands } from '/index.js';
 
 let input = null;
 
 let selectionMenu = false;
 let selected = null;
 let keyDirection = null;
+let isInUI = false;
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -71,7 +73,9 @@ export class Omori extends GameObject {
 
     step(root) {
         input = mainScene.input;
-        this.tryMove(root);
+        if (isInUI == false) {
+            this.tryMove(root);   
+        }
         this.tryEmitPosition();
         if (input?.getActionJustPressed("KeyZ")) {
             this.omoriInteract();
@@ -102,61 +106,69 @@ export class Omori extends GameObject {
     }
 
     select(parent) {
+        isInUI = true;
         selectionMenu = true
-        const children = [...parent.children];
-        if (parent.classList == "textbox3") {
+        if (isInUI == true) {
+            const children = [...parent.children];
             for (let i = 0; i < children.length; i++) {
-                document.getElementsByClassName("laptopOptions")[i].style.visibility = "hidden";
-            }
+                    document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
+                }
             selected = 0
-            document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
-            onkeydown = (event) => {
-                if (event.key == "ArrowDown") {
-                    keyDirection = "down"
-                    selected = this.selecting(children)
-                    for (let i = 0; i < children.length; i++) {
-                        document.getElementsByClassName("laptopOptions")[i].style.visibility = "hidden";
-                        document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
+            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
+            if (parent.classList == "textbox3") {
+                document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
+                onkeydown = (event) => {
+                    if (event.key == "ArrowDown") {
+                        keyDirection = "down"
+                        selected = this.selecting(children)
+                        for (let i = 0; i < children.length; i++) {
+                            document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
+                            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
+                        }
                     }
-                }
-                if (event.key == "ArrowUp") {
-                    keyDirection = "up"
-                    selected = this.selecting(children)
-                    for (let i = 0; i < children.length; i++) {
-                        document.getElementsByClassName("laptopOptions")[i].style.visibility = "hidden";
-                        document.getElementsByClassName("laptopOptions")[selected].style.visibility = "visible";
+                    if (event.key == "ArrowUp") {
+                        keyDirection = "up"
+                        selected = this.selecting(children)
+                        for (let i = 0; i < children.length; i++) {
+                            document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
+                            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
+                        }
                     }
-                }
-                if (event.key == "ArrowLeft") {
-                    keyDirection = "none";
-                    console.log("hello");
-                    selected = this.selecting(children)
-                    document.querySelector(".textbox3").style.visibility = "hidden";
-                    document.querySelector(".textbox").style.visibility = "hidden";
+                    if (event.key == "z") {
+                        keyDirection = "none";
+                        selected = this.selecting(children);
+                        document.querySelector(".textbox3").style.visibility = 'hidden';
+                        document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
+                        arrowHands.forEach(arrowHands => {
+                            arrowHands.style.visibility = 'hidden';
+                        })
+                        laptopSelection(selected);
+                    }
                 }
             }
         }
+        
     }
 
     selecting(children) {
         if (keyDirection == "down") {
             if (selected < (children.length - 1)) {
-                selected += 1
+                selected += 1;
             } else {
-                selected = 0
+                selected = 0;
             }
         }
         if (keyDirection == "up") {
             if (selected > 0) {
-                selected -= 1
+                selected -= 1;
             } else {
                 selected = (children.length - 1);
             }
         }
         if (keyDirection == "none") {
-            return;
+            return selected;
         }
-        return selected
+        return selected;
     }
 
     tryMove(root) {
