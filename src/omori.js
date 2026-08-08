@@ -115,7 +115,7 @@ export class Omori extends GameObject {
             const children = [...parent.children];
             for (let i = 0; i < children.length; i++) {
                     document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
-                }
+            }
             selected = 0
             document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
             if (parent.classList == "textbox3") {
@@ -150,6 +150,9 @@ export class Omori extends GameObject {
                     }
                 }
             }
+        } else {
+            console.log("did not meet one of the requirements")
+            console.log(selectionMenu)
         }
     }
 
@@ -224,6 +227,7 @@ export class Omori extends GameObject {
         }
         this.facingDirection = input.direction ?? this.facingDirection;
     }
+    
     interactLaptop() {
         let distFromLaptopX = Math.abs(this.body.position.x - laptop.position.x)
         let distFromLaptopY = Math.abs(this.body.position.y - laptop.position.y)

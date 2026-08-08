@@ -111,6 +111,10 @@ p {
     padding: 0;
 }
 
+#laptop {
+    display: flex;
+}
+
 #computer {
     position: absolute;
     display: flex;

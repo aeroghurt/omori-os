@@ -42,6 +42,8 @@ export const arrowHands = document.querySelectorAll(".backnforth");
 export const newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
 export const staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
 
+let booted = false;
+
 computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
 
@@ -137,14 +139,24 @@ const update = (delta) => {
             computer.style.visibility = 'visible';
             laptop_start.style.visibility = 'hidden';
             document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
+            booted = true
         }
     }
-    if (newText.isDone == true) {
+    if (staredText.isDone == true) {
         document.querySelector("#stared>.backnforth").style.visibility = 'visible';
-        if (mainScene.input?.getActionJustPressed("KeyZ")) {
-            computer.style.visibility = 'visible';
-            laptop_start.style.visibility = 'hidden';
-            document.querySelector("#stared>.backnforth").style.visibility = 'hidden';
+        onkeydown = (event) => {
+            if (event.key == "z") {
+                // computer.style.visibility = 'hidden';
+                document.getElementById("stared").style.visibility = 'hidden';
+                // document.querySelector("#stared>.backnforth").style.visibility = 'hidden';
+                computer.style.display = 'none';
+                booted = false;
+                staredText.isDone = false;
+                staredText.oneInstance = false;
+                newText.isDone = false;
+                newText.oneInstance = false;
+                console.log("IT SHOUDL BE WORKING", newText.isDone, newText.oneInstance)
+            }
         }
     }
 }
@@ -169,18 +181,25 @@ function updateTime() {
 setInterval(updateTime, 1000);
 
 export function bootLaptop() {
-    laptop_start.style.visibility = 'visible';
-    document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
-    if (!newText.isDone && !newText.oneInstance) {
-        newText.init();
-    }
-    else if (newText.isDone) {
-        computer.style.visibility = 'visible';
-        document.getElementsByClassName("textbox")[1].style.visibility = 'visible';
-        laptop_start.style.visibility = 'hidden';
-        arrowHands.forEach(arrowHands => {
-            arrowHands.style.visibility = 'hidden';
-        })
+    if (!booted) {
+        laptop_start.style.visibility = 'visible';
+        document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
+        if (!newText.isDone && !newText.oneInstance) {
+            newText.init();
+        } else {
+            console.log(newText.isDone, newText.oneInstance)
+        }
+        if (newText.isDone) {
+            computer.style.display = 'flex';
+            computer.style.visibility = 'visible';
+            document.getElementsByClassName("textbox")[1].style.visibility = 'visible';
+            laptop_start.style.visibility = 'hidden';
+            arrowHands.forEach(arrowHands => {
+                arrowHands.style.visibility = 'hidden';
+            })
+        }
+    } else {
+        console.log(booted)
     }
 }
 
@@ -239,12 +258,10 @@ export function laptopSelection(selected) {
                 staredText.init();
             }
             else if (staredText.isDone) {
-                computer.style.visibility = 'visible';
-                document.getElementsByClassName("textbox")[1].style.visibility = 'visible';
-                laptop_start.style.visibility = 'hidden';
+                computer.style.visibility = 'hidden';
                 arrowHands.forEach(arrowHands => {
-                arrowHands.style.visibility = 'hidden';
-            })
+                    arrowHands.style.visibility = 'hidden';
+                })
             }
             console.log("Chose to stare at screen");
             break
