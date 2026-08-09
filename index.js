@@ -41,6 +41,7 @@ const laptop_start_text = document.querySelector("#laptop-start>h1");
 export const arrowHands = document.querySelectorAll(".backnforth");
 export const newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
 export const staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
+export const loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "The heat from the laptop warmed your lap. It felt nice.");
 
 let booted = false;
 
@@ -154,6 +155,20 @@ const update = (delta) => {
                 document.getElementById("stared").style.visibility = 'hidden';
                 document.querySelector("#stared>.backnforth").style.visibility = 'hidden';
                 document.querySelector("#laptop-start").style.visibility = 'hidden';
+                computer.style.visibility = 'hidden';
+                console.log("laptop exited")
+            }
+        }
+    }
+    // exits laptop but not before making a very long and unnecessary statement
+    if (loggedOffText.isDone == true) {
+        document.querySelector("#loggedOff>.backnforth").style.visibility = 'visible';
+        onkeydown = (event) => {
+            if (event.key == "z" && booted) {
+                reset();
+                document.getElementById("loggedOff").style.visibility = 'hidden';
+                document.querySelector("#loggedOff>.backnforth").style.visibility = 'hidden';
+                document.querySelector("#laptop-start").style.visibility = 'hidden';
                 document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
                 computer.style.visibility = 'hidden';
                 console.log("laptop exited")
@@ -253,7 +268,6 @@ function dragElement(element) {
   }
 }
 
-
 export function laptopSelection(selected) {
     switch (selected) {
         case 0:
@@ -273,6 +287,20 @@ export function laptopSelection(selected) {
             console.log("Chose to look at journal");
             break
         case 2:
+            console.log("booted", booted)
+            document.getElementsByClassName("textbox")[3].style.visibility = 'visible';
+            if (!loggedOffText.isDone && !loggedOffText.oneInstance) {
+                loggedOffText.init();
+                document.querySelector("#computer").style.visibility = 'hidden';
+                document.getElementsByClassName("container")[0].style.background = 'transparent';
+                document.getElementsByClassName("textbox")[1].style.visibility = 'hidden'; // doesn't work because booted is true and newText is done
+            }
+            else if (loggedOffText.isDone) {
+                computer.style.visibility = 'hidden';
+                arrowHands.forEach(arrowHands => {
+                    arrowHands.style.visibility = 'hidden';
+                })
+            }
             console.log("Chose to log off");
             break
     }
@@ -283,5 +311,8 @@ export function reset() {
     newText.oneInstance = false;
     staredText.isDone = false;
     staredText.oneInstance = false;
+    loggedOffText.isDone = false;
+    loggedOffText.oneInstance = false;
     booted = false;
+    document.getElementsByClassName("container")[0].style.background = 'black';
 }
