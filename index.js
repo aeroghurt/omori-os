@@ -133,29 +133,30 @@ const update = (delta) => {
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
-    if (newText.isDone == true) {
+    // fires only when starting laptop text is true, z is pressed and not booted is true
+    if (newText.isDone == true && !booted) {
         document.querySelector("#laptop-start>.backnforth").style.visibility = 'visible';
-        if (mainScene.input?.getActionJustPressed("KeyZ")) {
-            computer.style.visibility = 'visible';
-            laptop_start.style.visibility = 'hidden';
-            document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
-            booted = true
+        onkeydown = (event) => {
+            if (event.key == "z" && !booted) {
+                computer.style.visibility = 'visible';
+                laptop_start.style.visibility = 'hidden';
+                document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
+                booted = true
+            }
         }
     }
+    // exits laptop
     if (staredText.isDone == true) {
         document.querySelector("#stared>.backnforth").style.visibility = 'visible';
         onkeydown = (event) => {
-            if (event.key == "z") {
-                // computer.style.visibility = 'hidden';
+            if (event.key == "z" && booted) {;
+                reset();
                 document.getElementById("stared").style.visibility = 'hidden';
-                // document.querySelector("#stared>.backnforth").style.visibility = 'hidden';
-                computer.style.display = 'none';
-                booted = false;
-                staredText.isDone = false;
-                staredText.oneInstance = false;
-                newText.isDone = false;
-                newText.oneInstance = false;
-                console.log("IT SHOUDL BE WORKING", newText.isDone, newText.oneInstance)
+                document.querySelector("#stared>.backnforth").style.visibility = 'hidden';
+                document.querySelector("#laptop-start").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
+                computer.style.visibility = 'hidden';
+                console.log("laptop exited")
             }
         }
     }
@@ -182,32 +183,35 @@ setInterval(updateTime, 1000);
 
 export function bootLaptop() {
     if (!booted) {
+        console.log("not booted")
         laptop_start.style.visibility = 'visible';
         document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
+        // initialises starting laptop text if it's not yet shown and does not have another instance
         if (!newText.isDone && !newText.oneInstance) {
             newText.init();
-        } else {
-            console.log(newText.isDone, newText.oneInstance)
+            console.log("newtext initialised", newText.isDone, newText.oneInstance)
         }
+    }
+    if (booted) {
+        // gets the selection menu
         if (newText.isDone) {
-            computer.style.display = 'flex';
             computer.style.visibility = 'visible';
             document.getElementsByClassName("textbox")[1].style.visibility = 'visible';
             laptop_start.style.visibility = 'hidden';
             arrowHands.forEach(arrowHands => {
                 arrowHands.style.visibility = 'hidden';
             })
+            console.log(`computer visibility is: ${window.getComputedStyle(computer).visibility}`)
         }
-    } else {
-        console.log(booted)
     }
 }
+
 
 export function openSketchbook() {
     sketchbook.style.visibility = 'visible';
 }
 
-// Make the element draggable:
+// makes the element draggable
 dragElement(document.getElementById("computer"));
 dragElement(document.getElementById("sketchbook"));
 
@@ -272,4 +276,12 @@ export function laptopSelection(selected) {
             console.log("Chose to log off");
             break
     }
+}
+
+export function reset() {
+    newText.isDone = false;
+    newText.oneInstance = false;
+    staredText.isDone = false;
+    staredText.oneInstance = false;
+    booted = false;
 }

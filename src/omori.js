@@ -33,6 +33,7 @@ import { RevealingText } from '/src/revealingText.js';
 import { newText } from '/index.js';
 import { laptopSelection } from '/index.js';
 import { arrowHands } from '/index.js';
+import { reset } from '/index.js';
 
 let input = null;
 
@@ -109,6 +110,7 @@ export class Omori extends GameObject {
 
     select(parent) {
         if (newText.isDone && !selectionMenu && window.getComputedStyle(parent).visibility == 'visible') {
+            console.log("Made selectionmenu true :DDD")
             selectionMenu = true
         }
         if (selectionMenu) {
@@ -137,6 +139,7 @@ export class Omori extends GameObject {
                             document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
                         }
                     }
+                    // selects one of the options
                     if (event.key == "z" && window.getComputedStyle(parent).visibility == 'visible') {
                         keyDirection = "none";
                         selected = this.selecting(children);
@@ -147,12 +150,12 @@ export class Omori extends GameObject {
                         })
                         laptopSelection(selected);
                         selectionMenu = false;
+                        console.log(`option selected`)
                     }
                 }
             }
         } else {
-            console.log("did not meet one of the requirements")
-            console.log(selectionMenu)
+            console.log(`did not meet one of the requirements, selectionmenu is: ${selectionMenu}`)
         }
     }
 
