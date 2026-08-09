@@ -1,0 +1,2 @@
+issue #1:
+once typewriter text is initialised, it makes a new one, so two or more appear when interacting again

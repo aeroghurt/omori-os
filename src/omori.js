@@ -37,9 +37,10 @@ import { reset } from '/index.js';
 
 let input = null;
 
-export let selectionMenu = false;
+let selectionMenu = false;
 let selected = null;
 let keyDirection = null;
+let state;
 
 export class Omori extends GameObject {
     constructor(x,y) {
@@ -90,7 +91,6 @@ export class Omori extends GameObject {
     }
 
     ready() {
-        return;
     }
 
     tryEmitPosition() {
@@ -235,6 +235,7 @@ export class Omori extends GameObject {
         let distFromLaptopX = Math.abs(this.body.position.x - laptop.position.x)
         let distFromLaptopY = Math.abs(this.body.position.y - laptop.position.y)
         if (distFromLaptopX <= 16 && distFromLaptopY <= 16 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
+            bootLaptop();
             return document.querySelector(".textbox3");
             selectionMenu = true;
         }
