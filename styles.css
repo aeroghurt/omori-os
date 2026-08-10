@@ -165,3 +165,18 @@ p {
 .typewriter {
     width: 85%;
 }
+
+#mewo {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin: 0;
+    padding: 0.5%;
+}
+
+#mewo > img {
+    width: 50%;
+    height: 50%;
+}

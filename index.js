@@ -29,7 +29,6 @@ import { Omori } from '/src/omori.js';
 import { events } from '/src/events.js';
 import { Camera } from '/src/camera.js'
 import { RevealingText } from '/src/revealingText.js';
-import { typewriter } from '/src/typewriter.js';
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
@@ -37,18 +36,21 @@ const computer = document.getElementById("laptop");
 const sketchbook = document.getElementById("sketchpad");
 const laptop_start = document.querySelector("#laptop-start");
 const laptop_start_text = document.querySelector("#laptop-start>h1");
+const cat = document.querySelector("#cat");
 
 export const arrowHands = document.querySelectorAll(".backnforth");
 
 export let newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
 export let staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
 export let loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "The heat from the laptop warmed your lap. It felt nice.");
+export let mewoText = new RevealingText(document.querySelector("#mewo>h1"), "Meow? (Waiting for something to happen?)");
 
 let booted = false;
 let state = null;
 
 computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
+cat.style.visibility = 'visible';
 
 document.querySelectorAll(".textbox").forEach(element => {
     element.style.visibility = 'hidden';
@@ -136,8 +138,6 @@ const update = (delta) => {
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
-    // console.log(state)
-    // console.log(booted)
     // fires only when starting laptop text is true, z is pressed and not booted is true
     if (newText.isDone == true && !booted) {
         document.querySelector("#laptop-start>.backnforth").style.visibility = 'visible';
@@ -146,6 +146,7 @@ const update = (delta) => {
                 computer.style.visibility = 'visible';
                 laptop_start.style.visibility = 'hidden';
                 document.querySelector("#computer").style.visibility = 'visible';
+                document.querySelector(".textbox3").style.visibility = 'visible';
                 document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
                 booted = true
             }
@@ -199,9 +200,21 @@ gameLoop.start();
 ready();
 
 function updateTime() {
-    let currentTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
+    let date = new Date();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let merediem;
+    if (minutes < 10) {
+        minutes = `0${minutes}`;
+    }
+    if (hours > 11) {
+        merediem = `PM`;
+    } else {
+        merediem = `AM`;
+    }
+    let currentTime = `${hours}:${minutes} ${merediem}`;
     let time = document.querySelector(".time");
-    time.innerHTML = currentTime
+    time.innerHTML = currentTime;
 }
 
 setInterval(updateTime, 1000);

@@ -249,4 +249,13 @@ export class Omori extends GameObject {
             return document.querySelector(".textbox2");
         }
     }
+
+    interactMewo() {
+        let distFromMewoX = Math.abs(this.body.position.x - mewo.position.x)
+        let distFromMewoY = Math.abs(this.body.position.y - mewo.position.y)
+        if (distFromMewoX <= 16 && distFromMewoY <= 16 && distFromMewoX >= 0 && distFromMewoY >= 0) {
+            bootLaptop();
+            return document.querySelector(".textbox3");
+        }
+    }
 }
