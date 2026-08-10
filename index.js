@@ -39,6 +39,7 @@ const laptop_start = document.querySelector("#laptop-start");
 const laptop_start_text = document.querySelector("#laptop-start>h1");
 
 export const arrowHands = document.querySelectorAll(".backnforth");
+
 export let newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
 export let staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
 export let loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "The heat from the laptop warmed your lap. It felt nice.");
@@ -135,6 +136,8 @@ const update = (delta) => {
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
+    // console.log(state)
+    // console.log(booted)
     // fires only when starting laptop text is true, z is pressed and not booted is true
     if (newText.isDone == true && !booted) {
         document.querySelector("#laptop-start>.backnforth").style.visibility = 'visible';
@@ -142,6 +145,7 @@ const update = (delta) => {
             if (event.key == "z" && !booted) {
                 computer.style.visibility = 'visible';
                 laptop_start.style.visibility = 'hidden';
+                document.querySelector("#computer").style.visibility = 'visible';
                 document.querySelector("#laptop-start>.backnforth").style.visibility = 'hidden';
                 booted = true
             }
@@ -153,11 +157,14 @@ const update = (delta) => {
         onkeydown = (event) => {
             if (event.key == "z" && booted) {;
                 reset();
+                document.querySelector("#computer").style.visibility = 'hidden';
                 document.getElementById("stared").style.visibility = 'hidden';
                 document.querySelector("#stared>.backnforth").style.visibility = 'hidden';
                 document.querySelector("#laptop-start").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
+                document.querySelector(".textbox3").style.visibility = 'hidden';
                 computer.style.visibility = 'hidden';
-                console.log("laptop exited")
+                console.log("laptop exited, ", state)
             }
         }
     }
@@ -171,8 +178,9 @@ const update = (delta) => {
                 document.querySelector("#loggedOff>.backnforth").style.visibility = 'hidden';
                 document.querySelector("#laptop-start").style.visibility = 'hidden';
                 document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
+                document.querySelector(".textbox3").style.visibility = 'hidden';
                 computer.style.visibility = 'hidden';
-                console.log("laptop exited")
+                console.log("laptop exited, state: ", state)
             }
         }
     }
@@ -202,6 +210,10 @@ function ready() {
     state = "canInteractAgain"
 }
 
+function canInteractAgain() {
+    state = "canInteractAgain";
+}
+
 export function bootLaptop() {
     if (state === "exiting") {
         return;
@@ -220,7 +232,8 @@ export function bootLaptop() {
         if (state === "exiting") {
             return;
         }
-        // gets the selection menu
+        // i actually have no clue wtf this does
+        // oh it just switches to the laptop screen oh ok ok
         if (newText.isDone && state === "canInteractAgain") {
             computer.style.visibility = 'visible';
             document.getElementsByClassName("textbox")[1].style.visibility = 'visible';
@@ -282,10 +295,18 @@ function dragElement(element) {
 
 export function laptopSelection(selected) {
     switch (selected) {
+        // chose to stare at the screen
         case 0:
             document.getElementsByClassName("textbox")[2].style.visibility = 'visible';
             if (!staredText.isDone && !staredText.oneInstance) {
-                staredText.init();
+                state = "cannotInteract";
+                document.querySelector("#stared").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
+                setTimeout(() => {
+                    document.querySelector("#stared").style.visibility = 'visible';
+                    staredText.init();
+                    state = "canInteractAgain"
+                }, 3000)
             }
             else if (staredText.isDone) {
                 computer.style.visibility = 'hidden';
@@ -295,17 +316,20 @@ export function laptopSelection(selected) {
             }
             console.log("Chose to stare at screen");
             break
+        // chose to look at the journal
         case 1:
             console.log("Chose to look at journal");
             break
+        // chose to log off
         case 2:
             console.log("booted")
             document.getElementsByClassName("textbox")[3].style.visibility = 'visible';
             if (!loggedOffText.isDone && !loggedOffText.oneInstance) {
                 loggedOffText.init();
+                document.querySelector(".textbox3").style.visibility = 'hidden';
                 document.querySelector("#computer").style.visibility = 'hidden';
                 document.getElementsByClassName("container")[0].style.background = 'transparent';
-                document.getElementsByClassName("textbox")[1].style.visibility = 'hidden'; // doesn't work because booted is true and newText is done
+                document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
             }
             else if (loggedOffText.isDone) {
                 computer.style.visibility = 'hidden';
@@ -321,18 +345,15 @@ export function laptopSelection(selected) {
 export function reset() {
     newText.isDone = false;
     newText.oneInstance = false;
-    newText = null;
     staredText.isDone = false;
     staredText.oneInstance = false;
-    staredText = null;
     loggedOffText.isDone = false;
     loggedOffText.oneInstance = false;
-    loggedOffText = null;
+    booted = false;
     document.getElementsByClassName("container")[0].style.background = 'black';
-    state = "exiting"
-    setInterval(canInteractAgain, 1000)
-}
-
-function canInteractAgain() {
-    state = "canInteractAgain";
+    for (let i = document.getElementsByTagName("span").length - 1; i >= 0; i--) {
+        document.getElementsByTagName("span")[i].remove();
+    }
+    state = "exiting";
+    setTimeout(canInteractAgain, 1000);
 }
