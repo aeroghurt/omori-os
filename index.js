@@ -300,6 +300,7 @@ export function meow() {
 // makes the element draggable
 dragElement(document.getElementById("computer"));
 dragElement(document.getElementById("sketchbook"));
+dragElement(document.getElementById("game-container"));
 
 function dragElement(element) {
   var initialX = 0;
