@@ -29,6 +29,8 @@ import { bootLaptop } from '/index.js';
 import { laptop } from '/index.js';
 import { openSketchbook } from '/index.js';
 import { notebook } from '/index.js';
+import { mewo } from '/index.js';
+import { meow } from '/index.js';
 import { RevealingText } from '/src/revealingText.js';
 import { newText } from '/index.js';
 import { laptopSelection } from '/index.js';
@@ -85,7 +87,7 @@ export class Omori extends GameObject {
             })
         }
         if ((input?.getActionJustPressed("ArrowDown") && !selectionMenu) || (input?.getActionJustPressed("ArrowUp") && !selectionMenu)) {
-            let parent = this.interactSketchbook() || this.interactLaptop();
+            let parent = this.interactSketchbook() || this.interactLaptop() || this.interactMewo();
             this.select(parent);
         }
     }
@@ -105,6 +107,7 @@ export class Omori extends GameObject {
     omoriInteract() {
         this.interactLaptop();
         this.interactSketchbook();
+        this.interactMewo();
         // why are you even reading this code?? there's nothing to learn from here.
     }
 
@@ -118,7 +121,7 @@ export class Omori extends GameObject {
             for (let i = 0; i < children.length; i++) {
                     document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
             }
-            selected = 0
+            selected = 0;
             document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
             if (parent.classList == "textbox3") {
                 document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
@@ -254,8 +257,8 @@ export class Omori extends GameObject {
         let distFromMewoX = Math.abs(this.body.position.x - mewo.position.x)
         let distFromMewoY = Math.abs(this.body.position.y - mewo.position.y)
         if (distFromMewoX <= 16 && distFromMewoY <= 16 && distFromMewoX >= 0 && distFromMewoY >= 0) {
-            bootLaptop();
-            return document.querySelector(".textbox3");
+            meow();
+            return document.querySelector("#mewo");
         }
     }
 }

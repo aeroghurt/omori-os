@@ -24,6 +24,7 @@ import { STAND_RIGHT } from '/src/omoriAnimations.js';
 import { STAND_UP } from '/src/omoriAnimations.js';
 import { LAPTOP } from '/src/objectAnimations.js';
 import { LIGHTBULB } from '/src/objectAnimations.js';
+import { MEWO } from '/src/objectAnimations.js';
 import { GameObject } from '/src/gameObject.js';
 import { Omori } from '/src/omori.js';
 import { events } from '/src/events.js';
@@ -108,10 +109,15 @@ const tissues = new Sprite({
 })
 mainScene.addChild(tissues);
 
-const mewo = new Sprite({
+export const mewo = new Sprite({
     resource: resources.images.mewo,
-    frameSize: new Vector2(320, 180),
-    position: new Vector2(32 * 3, 32 * 4.5)
+    frameSize: new Vector2(32, 32),
+    hFrames: 2,
+    vFrames: 1,
+    position: new Vector2(32 * 3, 32 * 4.5),
+    animations: new Animations({
+        mewoing: new FrameIndexPattern(MEWO)
+    })
 })
 mainScene.addChild(mewo);
 
@@ -181,6 +187,19 @@ const update = (delta) => {
                 document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
                 document.querySelector(".textbox3").style.visibility = 'hidden';
                 computer.style.visibility = 'hidden';
+                console.log("laptop exited, state: ", state)
+            }
+        }
+    }
+    // exits :meow:
+    if (mewoText.isDone == true) {
+        document.querySelector("#mewo>.backnforth").style.visibility = 'visible';
+        onkeydown = (event) => {
+            if (event.key == "z" && booted) {
+                reset();
+                document.querySelector("#cat").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[5].style.visibility = 'hidden';
+                cat.style.visibility = 'hidden';
                 console.log("laptop exited, state: ", state)
             }
         }
@@ -262,6 +281,20 @@ export function bootLaptop() {
 
 export function openSketchbook() {
     sketchbook.style.visibility = 'visible';
+}
+
+export function meow() {
+    document.querySelector("#cat").style.visibility = 'visible';
+    document.getElementsByClassName("textbox")[5].style.visibility = 'visible';
+    if (!mewoText.isDone && !mewoText.oneInstance) {
+            mewoText.init();
+        }
+        else if (mewoText.isDone) {
+            cat.style.visibility = 'hidden';
+            arrowHands.forEach(arrowHands => {
+                arrowHands.style.visibility = 'hidden';
+            })
+        }
 }
 
 // makes the element draggable

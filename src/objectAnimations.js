@@ -43,3 +43,22 @@ const Lightbulb = (rootFrame = 0) => {
 }
 
 export const LIGHTBULB = Lightbulb(0);
+
+const Mewo = (rootFrame = 0) => {
+    return {
+        duration: 800,
+        frames:
+            [
+                {
+                    time: 0,
+                    frame: rootFrame
+                },
+                {
+                    time: 400,
+                    frame: rootFrame + 1
+                }
+            ]
+    }
+}
+
+export const MEWO = Mewo(0);
