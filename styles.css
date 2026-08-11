@@ -37,11 +37,6 @@ h1 {
     padding: 3%;
 }
 
-p {
-    font-family: 'omori';
-    color: white;
-}
-
 .container {
     display: flex;
     justify-content: center;
@@ -306,7 +301,32 @@ p {
     height: 99%;
     background-color: white;
     border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    align-items: center;
 }
 
+#stats > p {
+    font-family: 'omori';
+    color: black;
+    padding: 0;
+    margin: 0;
+    padding-left: 5%;
+    font-size: 1.5rem;
+    align-self: start
+}
 
+.progress-bar {
+    width: 90%;
+    height: 5%;
+    background-color: white;
+    border: solid 2px black;
+}
 
+.value {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    outline: solid 0.5px white;
+}

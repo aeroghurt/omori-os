@@ -402,5 +402,29 @@ export function reset() {
         document.getElementsByTagName("span")[i].remove();
     }
     state = "exiting";
-    setTimeout(canInteractAgain, 1000);
+    setTimeout(canInteractAgain, 10000);
 }
+
+let randomStat;
+let stats = [`hunger`, `boredom`, `trust`];
+let chosenStat;
+let width;
+
+setInterval(chooseRandomStat, 1000);
+
+function chooseRandomStat() {
+    randomStat = Math.floor(Math.random() * 3);
+    decreaseStat(randomStat);
+}
+
+function decreaseStat(stat) {
+    width = document.getElementsByClassName(`value`)[stat].offsetWidth
+    console.log(width)
+    document.getElementsByClassName(`value`)[stat].style.width = `${width - 5}px`;
+}
+
+(document.getElementsByTagName(`#chillin-spot>img`)[0]).addEventListener("click", () => {
+    width = document.getElementsByClassName(`value`)[2].offsetWidth
+    document.getElementsByClassName(`value`)[2].style.width = `${width +  5}px`
+    console.log("pat :3")
+})
