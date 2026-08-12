@@ -51,7 +51,8 @@ let state = null;
 
 computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
-cat.style.visibility = 'visible';
+cat.style.visibility = 'hidden';
+document.querySelector("#game-container").style.visibility = 'hidden';
 
 document.querySelectorAll(".textbox").forEach(element => {
     element.style.visibility = 'hidden';
@@ -141,6 +142,7 @@ mainScene.input = new Input();
 
 const update = (delta) => {
     ctx.clearRect(0, 0, 320, 180);
+    console.log(state)
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
@@ -195,12 +197,12 @@ const update = (delta) => {
     if (mewoText.isDone == true) {
         document.querySelector("#mewo>.backnforth").style.visibility = 'visible';
         onkeydown = (event) => {
-            if (event.key == "z" && booted) {
+            if (event.key == "z" && state === "canInteractAgain") {
                 reset();
-                document.querySelector("#cat").style.visibility = 'hidden';
+                document.querySelector("#mewo").style.visibility = 'hidden';
                 document.getElementsByClassName("textbox")[5].style.visibility = 'hidden';
                 cat.style.visibility = 'hidden';
-                console.log("laptop exited, state: ", state)
+                document.querySelector("#game-container").style.visibility = 'visible';
             }
         }
     }
@@ -278,68 +280,6 @@ export function bootLaptop() {
     }
 }
 
-
-export function openSketchbook() {
-    sketchbook.style.visibility = 'visible';
-}
-
-export function meow() {
-    document.querySelector("#cat").style.visibility = 'visible';
-    document.getElementsByClassName("textbox")[5].style.visibility = 'visible';
-    if (!mewoText.isDone && !mewoText.oneInstance) {
-            mewoText.init();
-        }
-        else if (mewoText.isDone) {
-            cat.style.visibility = 'hidden';
-            arrowHands.forEach(arrowHands => {
-                arrowHands.style.visibility = 'hidden';
-            })
-        }
-}
-
-// makes the element draggable
-dragElement(document.getElementById("computer"));
-dragElement(document.getElementById("sketchbook"));
-dragElement(document.getElementById("game-container"));
-
-function dragElement(element) {
-  var initialX = 0;
-  var initialY = 0;
-  var currentX = 0;
-  var currentY = 0;
-
-  if (document.getElementById(element.id + "header")) {
-    document.getElementById(element.id + "header").onmousedown = startDragging;
-  } else {
-    element.onmousedown = startDragging;
-  }
-
-  function startDragging(e) {
-    e = e || window.event;
-    e.preventDefault();
-    initialX = e.clientX;
-    initialY = e.clientY;
-    document.onmouseup = stopDragging;
-    document.onmousemove = dragElement;
-  }
-
-  function dragElement(e) {
-    e = e || window.event;
-    e.preventDefault();
-    currentX = initialX - e.clientX;
-    currentY = initialY - e.clientY;
-    initialX = e.clientX;
-    initialY = e.clientY;
-    element.style.top = (element.offsetTop - currentY) + "px";
-    element.style.left = (element.offsetLeft - currentX) + "px";
-  }
-
-  function stopDragging() {
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-}
-
 export function laptopSelection(selected) {
     switch (selected) {
         // chose to stare at the screen
@@ -389,6 +329,24 @@ export function laptopSelection(selected) {
     }
 }
 
+export function openSketchbook() {
+    sketchbook.style.visibility = 'visible';
+}
+
+export function meow() {
+    if (!mewoText.isDone && !mewoText.oneInstance && state === "canInteractAgain") {
+        document.querySelector("#cat").style.visibility = 'visible';
+        document.getElementsByClassName("textbox")[5].style.visibility = 'visible';
+        mewoText.init();
+    }
+    else if (mewoText.isDone) {
+        arrowHands.forEach(arrowHands => {
+            arrowHands.style.visibility = 'hidden';
+        })
+        state = "canInteractAgain"
+    }
+}
+
 export function reset() {
     newText.isDone = false;
     newText.oneInstance = false;
@@ -396,13 +354,15 @@ export function reset() {
     staredText.oneInstance = false;
     loggedOffText.isDone = false;
     loggedOffText.oneInstance = false;
+    mewoText.isDone = false;
+    mewoText.oneInstance = false;
     booted = false;
     document.getElementsByClassName("container")[0].style.background = 'black';
     for (let i = document.getElementsByTagName("span").length - 1; i >= 0; i--) {
         document.getElementsByTagName("span")[i].remove();
     }
     state = "exiting";
-    setTimeout(canInteractAgain, 10000);
+    setTimeout(canInteractAgain, 1000);
 }
 
 let randomStat;
@@ -410,7 +370,7 @@ let stats = [`hunger`, `boredom`, `trust`];
 let chosenStat;
 let width;
 
-setInterval(chooseRandomStat, 1000);
+setInterval(chooseRandomStat, 5000);
 
 function chooseRandomStat() {
     randomStat = Math.floor(Math.random() * 3);
@@ -433,3 +393,50 @@ document.querySelector("#chillin-spot>img").addEventListener("click", () => {
         console.log("pat :3")
     }
 })
+
+document.querySelector(".close-button").addEventListener("click", () => {
+    document.querySelector("#game-container").style.visibility = 'hidden';
+})
+
+// makes the element draggable
+dragElement(document.getElementById("computer"));
+dragElement(document.getElementById("sketchbook"));
+dragElement(document.getElementById("game-container"));
+
+function dragElement(element) {
+    var initialX = 0;
+    var initialY = 0;
+    var currentX = 0;
+    var currentY = 0;
+
+    if (document.getElementById(element.id + "header")) {
+    document.getElementById(element.id + "header").onmousedown = startDragging;
+    } else {
+    element.onmousedown = startDragging;
+    }
+
+    function startDragging(e) {
+    e = e || window.event;
+    e.preventDefault();
+    initialX = e.clientX;
+    initialY = e.clientY;
+    document.onmouseup = stopDragging;
+    document.onmousemove = dragElement;
+    }
+
+    function dragElement(e) {
+    e = e || window.event;
+    e.preventDefault();
+    currentX = initialX - e.clientX;
+    currentY = initialY - e.clientY;
+    initialX = e.clientX;
+    initialY = e.clientY;
+    element.style.top = (element.offsetTop - currentY) + "px";
+    element.style.left = (element.offsetLeft - currentX) + "px";
+    }
+
+    function stopDragging() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+    }
+}
