@@ -45,6 +45,7 @@ export let newText = new RevealingText(laptop_start_text, "You booted up your la
 export let staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
 export let loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "The heat from the laptop warmed your lap. It felt nice.");
 export let mewoText = new RevealingText(document.querySelector("#mewo>h1"), "Meow? (Waiting for something to happen?)");
+export let tissuesText = new RevealingText(document.querySelector("#tissues>h1"), "Tissues to wipe your sorrows away.");
 
 let booted = false;
 let state = null;
@@ -103,7 +104,7 @@ export const notebook = new Sprite({
 })
 mainScene.addChild(notebook);
 
-const tissues = new Sprite({
+export const tissues = new Sprite({
     resource: resources.images.tissues,
     frameSize: new Vector2(320, 180),
     position: new Vector2(32 * 6, 32 * 4)
@@ -126,7 +127,7 @@ const omori = new Omori(0, 0);
 mainScene.addChild(omori);
 omori.ready()
 
-const lightbulb = new Sprite({
+export const lightbulb = new Sprite({
     resource: resources.images.lightbulb,
     frameSize: new Vector2(32, 96),
     hFrames: 3,
@@ -142,7 +143,6 @@ mainScene.input = new Input();
 
 const update = (delta) => {
     ctx.clearRect(0, 0, 320, 180);
-    console.log(state)
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
@@ -347,6 +347,20 @@ export function meow() {
     }
 }
 
+export function wipeYourSorrowsAway() {
+    if (!tissuesText.isDone && !tissuesText.oneInstance && state === "canInteractAgain") {
+        document.querySelector("#box-of-tissues").style.visibility = 'visible';
+        document.getElementsByClassName("textbox")[6].style.visibility = 'visible';
+        tissuesText.init();
+    }
+    else if (tissuesText.isDone) {
+        arrowHands.forEach(arrowHands => {
+            arrowHands.style.visibility = 'hidden';
+        })
+        state = "canInteractAgain"
+    }
+}
+
 export function reset() {
     newText.isDone = false;
     newText.oneInstance = false;
@@ -366,8 +380,6 @@ export function reset() {
 }
 
 let randomStat;
-let stats = [`hunger`, `boredom`, `trust`];
-let chosenStat;
 let width;
 
 setInterval(chooseRandomStat, 5000);
@@ -397,6 +409,33 @@ document.querySelector("#chillin-spot>img").addEventListener("click", () => {
 document.querySelector(".close-button").addEventListener("click", () => {
     document.querySelector("#game-container").style.visibility = 'hidden';
 })
+
+let food;
+
+for (let i = 0; i < document.getElementsByClassName("food").length; i++) {
+    document.getElementsByClassName("food")[i].addEventListener("click", () => {
+        switch (i) {
+            case 0:
+                food = "kibble_nibble"
+                break
+            case 1:
+                food = "salmon"
+                break
+            case 2:
+                food = "tuna"
+                break
+        }
+        eat(food)
+    })
+}
+
+function eat(food) {
+    console.log("eating", food);
+    let toBeFedFood = document.createElement("img");
+    toBeFedFood.setAttribute('src', `assets/${food}.png`);
+    toBeFedFood.setAttribute('style', `position: absolute; top: 60%;`);
+    document.getElementById("chillin-spot").appendChild(toBeFedFood)
+}
 
 // makes the element draggable
 dragElement(document.getElementById("computer"));

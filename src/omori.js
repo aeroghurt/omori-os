@@ -30,12 +30,14 @@ import { laptop } from '/index.js';
 import { openSketchbook } from '/index.js';
 import { notebook } from '/index.js';
 import { mewo } from '/index.js';
+import { tissues } from '/index.js';
 import { meow } from '/index.js';
 import { RevealingText } from '/src/revealingText.js';
 import { newText } from '/index.js';
 import { laptopSelection } from '/index.js';
 import { arrowHands } from '/index.js';
 import { reset } from '/index.js';
+import { wipeYourSorrowsAway } from '/index.js';
 
 let input = null;
 
@@ -87,7 +89,7 @@ export class Omori extends GameObject {
             })
         }
         if ((input?.getActionJustPressed("ArrowDown") && !selectionMenu) || (input?.getActionJustPressed("ArrowUp") && !selectionMenu)) {
-            let parent = this.interactSketchbook() || this.interactLaptop() || this.interactMewo();
+            let parent = this.interactSketchbook() || this.interactLaptop() || this.interactMewo() || this.interactTissues();
             this.select(parent);
         }
     }
@@ -108,6 +110,7 @@ export class Omori extends GameObject {
         this.interactLaptop();
         this.interactSketchbook();
         this.interactMewo();
+        this.interactTissues();
         // why are you even reading this code?? there's nothing to learn from here.
     }
 
@@ -259,6 +262,15 @@ export class Omori extends GameObject {
         if (distFromMewoX <= 20 && distFromMewoY <= 20 && distFromMewoX >= 0 && distFromMewoY >= 0) {
             meow();
             return document.querySelector("#mewo");
+        }
+    }
+
+    interactTissues() {
+        let distFromTissuesX = Math.abs(this.body.position.x - tissues.position.x)
+        let distFromTissuesY = Math.abs(this.body.position.y - tissues.position.y)
+        if (distFromTissuesX <= 16 && distFromTissuesY <= 16 && distFromTissuesX >= 0 && distFromTissuesY >= 0) {
+            wipeYourSorrowsAway();
+            return document.querySelector("#tissues");
         }
     }
 }
