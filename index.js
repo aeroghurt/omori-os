@@ -418,13 +418,18 @@ function chooseRandomStat() {
 }
 
 function decreaseStat(stat) {
-    width = document.getElementsByClassName(`value`)[stat].offsetWidth
-    console.log(width)
-    document.getElementsByClassName(`value`)[stat].style.width = `${width - 5}px`;
+    width = (document.getElementsByClassName(`value`)[stat].style.width).slice(0, -1)
+    if (width >= 0) {
+        document.getElementsByClassName(`value`)[stat].style.width = `${(width - 5)}%`;
+    }
 }
 
-(document.getElementsByTagName(`#chillin-spot>img`)[0]).addEventListener("click", () => {
-    width = document.getElementsByClassName(`value`)[2].offsetWidth
-    document.getElementsByClassName(`value`)[2].style.width = `${width +  5}px`
-    console.log("pat :3")
+document.querySelector("#chillin-spot>img").addEventListener("click", () => {
+    width = (document.getElementsByClassName(`value`)[2].style.width).slice(0, -1);
+    console.log(width)
+    if (width < 100) {
+        width = Number(width) + 5
+        document.getElementsByClassName(`value`)[2].style.width = `${width}%`;
+        console.log("pat :3")
+    }
 })
