@@ -423,15 +423,31 @@ function decreaseStat(stat) {
     }
 }
 
+// pets mewo
 document.querySelector("#chillin-spot>img").addEventListener("click", () => {
     width = (document.getElementsByClassName(`value`)[2].style.width).slice(0, -1);
     console.log(width)
     if (width < 100) {
         width = Number(width) + 5
         document.getElementsByClassName(`value`)[2].style.width = `${width}%`;
-        console.log("pat :3")
+        let heart = document.createElement("img");
+        heart.setAttribute("src", "assets/heart.png");
+        document.getElementById("chillin-spot").appendChild(heart);
+        random_position(heart)
+        setTimeout(() => {
+            document.getElementById("chillin-spot").removeChild(heart);
+        }, 500) 
     }
 })
+
+function random_position(element) {
+    let spot_height = document.querySelector("#chillin-spot").offsetHeight;
+    let spot_width = document.querySelector("#chillin-spot").offsetWidth;
+    let posOrNeg = Math.random() < 0.5 ? -1 : 1;
+    let random_pos_x = Math.random() * 25 * posOrNeg;
+    let random_pos_y = Math.random() * -25;
+    element.setAttribute("style", `position: relative; top: ${random_pos_y}%; left: ${random_pos_x}%`);
+}
 
 document.querySelector(".close-button").addEventListener("click", () => {
     document.querySelector("#game-container").style.visibility = 'hidden';
@@ -456,12 +472,36 @@ for (let i = 0; i < document.getElementsByClassName("food").length; i++) {
     })
 }
 
+document.getElementsByClassName("toy")[0].addEventListener("click", () => {
+    playWithLaser();
+})
+
 function eat(food) {
     console.log("eating", food);
     let toBeFedFood = document.createElement("img");
     toBeFedFood.setAttribute('src', `assets/${food}.png`);
     toBeFedFood.setAttribute('style', `position: absolute; top: 60%;`);
-    document.getElementById("chillin-spot").appendChild(toBeFedFood)
+    document.getElementById("chillin-spot").appendChild(toBeFedFood);
+    width = (document.getElementsByClassName(`value`)[0].style.width).slice(0, -1);
+    for (let i = 0; i < document.getElementsByClassName("food").length; i++) {
+        document.getElementsByClassName("food")[i].disabled = true;
+    }
+    setTimeout(() => {
+        document.getElementById("chillin-spot").removeChild(toBeFedFood);
+        for (let i = 0; i < document.getElementsByClassName("food").length; i++) {
+            document.getElementsByClassName("food")[i].disabled = false;
+        }
+    }, 2000);
+    if (width < 80) {
+        width = Number(width) + 20
+    } else if (width < 100) {
+        width = Number(width) + 5
+    }
+    document.getElementsByClassName(`value`)[0].style.width = `${width}%`;
+}
+
+function playWithLaser() {
+    document.body.setAttribute('style', 'cursor: url("assets/laser.png"), auto;')
 }
 
 // makes the element draggable

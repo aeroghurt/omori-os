@@ -240,7 +240,7 @@ export class Omori extends GameObject {
     interactLaptop() {
         let distFromLaptopX = Math.abs(this.body.position.x - laptop.position.x)
         let distFromLaptopY = Math.abs(this.body.position.y - laptop.position.y)
-        if (distFromLaptopX <= 16 && distFromLaptopY <= 16 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
+        if (distFromLaptopX <= 25 && distFromLaptopY <= 25 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
             bootLaptop();
             return document.querySelector(".textbox3");
             selectionMenu = true;
@@ -250,7 +250,7 @@ export class Omori extends GameObject {
     interactSketchbook() {
         let distFromSketchbookX = Math.abs(this.body.position.x - notebook.position.x)
         let distFromSketchbookY = Math.abs(this.body.position.y - notebook.position.y)
-        if (distFromSketchbookX <= 16 && distFromSketchbookY <= 16 && distFromSketchbookX >= 0 && distFromSketchbookY >= 0) {
+        if (distFromSketchbookX <= 32 && distFromSketchbookY <= 32 && distFromSketchbookX >= 0 && distFromSketchbookY >= 0) {
             openSketchbook();
             return document.querySelector(".textbox2");
         }
@@ -259,7 +259,7 @@ export class Omori extends GameObject {
     interactMewo() {
         let distFromMewoX = Math.abs(this.body.position.x - mewo.position.x)
         let distFromMewoY = Math.abs(this.body.position.y - mewo.position.y)
-        if (distFromMewoX <= 16 && distFromMewoY <= 16 && distFromMewoX >= 0 && distFromMewoY >= 0) {
+        if (distFromMewoX <= 32 && distFromMewoY <= 32 && distFromMewoX >= 0 && distFromMewoY >= 0) {
             meow();
             return document.querySelector("#mewo");
         }
@@ -268,7 +268,7 @@ export class Omori extends GameObject {
     interactTissues() {
         let distFromTissuesX = Math.abs(this.body.position.x - tissues.position.x)
         let distFromTissuesY = Math.abs(this.body.position.y - tissues.position.y)
-        if (distFromTissuesX <= 16 && distFromTissuesY <= 16 && distFromTissuesX >= 0 && distFromTissuesY >= 0) {
+        if (distFromTissuesX <= 32 && distFromTissuesY <= 32 && distFromTissuesX >= 0 && distFromTissuesY >= 0) {
             wipeYourSorrowsAway();
             return document.querySelector("#tissues");
         }
