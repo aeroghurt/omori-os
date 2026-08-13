@@ -45,7 +45,7 @@ export let newText = new RevealingText(laptop_start_text, "You booted up your la
 export let staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
 export let loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "The heat from the laptop warmed your lap. It felt nice.");
 export let mewoText = new RevealingText(document.querySelector("#mewo>h1"), "Meow? (Waiting for something to happen?)");
-export let tissuesText = new RevealingText(document.querySelector("#tissues>h1"), "Tissues to wipe your sorrows away.");
+export let tissuesText = new RevealingText(document.querySelector("#tissues>h1"), "A tissue box for wiping your sorrows away.");
 
 let booted = false;
 let state = null;
@@ -196,13 +196,35 @@ const update = (delta) => {
     // exits :meow:
     if (mewoText.isDone == true) {
         document.querySelector("#mewo>.backnforth").style.visibility = 'visible';
+        let idkWhyButThisWorks = false
         onkeydown = (event) => {
-            if (event.key == "z" && state === "canInteractAgain") {
+            if (event.key == "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
                 reset();
+                idkWhyButThisWorks = true
                 document.querySelector("#mewo").style.visibility = 'hidden';
+                document.querySelector("#mewo>.backnforth").style.visibility = 'hidden';
                 document.getElementsByClassName("textbox")[5].style.visibility = 'hidden';
                 cat.style.visibility = 'hidden';
-                document.querySelector("#game-container").style.visibility = 'visible';
+                if (state === "exiting") {
+                    document.querySelector("#game-container").style.visibility = 'visible';
+                }
+            }
+        }
+    }
+
+    if (tissuesText.isDone === true) {
+        console.log(tissuesText.isDone)
+        document.querySelector("#tissues>.backnforth").style.visibility = 'visible';
+        let idkWhyButThisWorks = false
+        onkeydown = (event) => {
+            if (event.key == "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
+                console.log("running")
+                reset();
+                idkWhyButThisWorks = true
+                document.querySelector("#tissues").style.visibility = 'hidden';
+                document.querySelector("#tissues>.backnforth").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[6].style.visibility = 'hidden';
+                document.querySelector("#box-of-tissues").style.visibility = 'hidden';
             }
         }
     }
@@ -275,7 +297,6 @@ export function bootLaptop() {
             arrowHands.forEach(arrowHands => {
                 arrowHands.style.visibility = 'hidden';
             })
-            console.log(`computer visibility is: ${window.getComputedStyle(computer).visibility}`)
         }
     }
 }
@@ -334,6 +355,9 @@ export function openSketchbook() {
 }
 
 export function meow() {
+    if (state === "exiting") {
+        return;
+    }
     if (!mewoText.isDone && !mewoText.oneInstance && state === "canInteractAgain") {
         document.querySelector("#cat").style.visibility = 'visible';
         document.getElementsByClassName("textbox")[5].style.visibility = 'visible';
@@ -343,12 +367,14 @@ export function meow() {
         arrowHands.forEach(arrowHands => {
             arrowHands.style.visibility = 'hidden';
         })
-        state = "canInteractAgain"
     }
 }
 
 export function wipeYourSorrowsAway() {
-    if (!tissuesText.isDone && !tissuesText.oneInstance && state === "canInteractAgain") {
+    if (state === "exiting") {
+        return;
+    }
+    if (!tissuesText.isDone && !tissuesText.oneInstance && state == "canInteractAgain") {
         document.querySelector("#box-of-tissues").style.visibility = 'visible';
         document.getElementsByClassName("textbox")[6].style.visibility = 'visible';
         tissuesText.init();
@@ -357,7 +383,6 @@ export function wipeYourSorrowsAway() {
         arrowHands.forEach(arrowHands => {
             arrowHands.style.visibility = 'hidden';
         })
-        state = "canInteractAgain"
     }
 }
 
@@ -370,6 +395,8 @@ export function reset() {
     loggedOffText.oneInstance = false;
     mewoText.isDone = false;
     mewoText.oneInstance = false;
+    tissuesText.isDone = false;
+    tissuesText.oneInstance = false;
     booted = false;
     document.getElementsByClassName("container")[0].style.background = 'black';
     for (let i = document.getElementsByTagName("span").length - 1; i >= 0; i--) {

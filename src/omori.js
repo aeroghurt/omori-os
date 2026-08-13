@@ -259,7 +259,7 @@ export class Omori extends GameObject {
     interactMewo() {
         let distFromMewoX = Math.abs(this.body.position.x - mewo.position.x)
         let distFromMewoY = Math.abs(this.body.position.y - mewo.position.y)
-        if (distFromMewoX <= 20 && distFromMewoY <= 20 && distFromMewoX >= 0 && distFromMewoY >= 0) {
+        if (distFromMewoX <= 16 && distFromMewoY <= 16 && distFromMewoX >= 0 && distFromMewoY >= 0) {
             meow();
             return document.querySelector("#mewo");
         }
