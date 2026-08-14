@@ -66,23 +66,29 @@
 
     <div id="sketchpad" class="container">
         <div id="sketchbook">
-            
+            <canvas id="sketchCanvas">
+                
+            </canvas>
+            <div id="selectionBar">
+
+            </div>
         </div>
-        <div class="textbox">
+        <div class="textbox" id="sketchText">
                 <h1 class="typewriter">
-                    Your sketchbook. Take a look inside?
+                    <!-- Your sketchbook. Take a look inside? -->
                 </h1>
+                <img src="assets/hand.png" class="backnforth">
             </div>
             <div class="textbox2">
-                <div class="option">
-                <img src="assets/hand.png" class="backnforth">
-                <h1 style="margin-left: 5%">
+                <div class="option" style="gap: 1%">
+                    <img src="assets/hand.png" class="backnforth sketchbookOptions">
+                <h1>
                     YES
-                </h1>  
+                </h1>
                 </div>
-                <div class="option">
-                    <img src="assets/hand.png" class="backnforth">
-                <h1 style="margin-left: 5%">
+                <div class="option" style="gap: 1%">
+                    <img src="assets/hand.png" class="backnforth sketchbookOptions">
+                <h1>
                     NO
                 </h1>
                 </div>
@@ -145,9 +151,7 @@
         </div> 
     </div>
 
-    <canvas id="canvas" width="320" height="180">
-
-    </canvas>
+    <canvas id="canvas" width="320" height="180"></canvas>
 
     <script src="index.js" type="module" defer></script>
 </body>

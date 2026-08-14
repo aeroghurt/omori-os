@@ -40,9 +40,11 @@ const laptop_start_text = document.querySelector("#laptop-start>h1");
 const cat = document.querySelector("#cat");
 
 export const arrowHands = document.querySelectorAll(".backnforth");
+let boredomInterval = setInterval(() => {return});
 
 export let newText = new RevealingText(laptop_start_text, "You booted up your laptop.");
 export let staredText = new RevealingText(document.querySelector("#stared>h1"), "You stared at the screen.");
+export let sketchbookText = new RevealingText(document.querySelector("#sketchText>h1"), "Your sketchbook. Take a look inside?");
 export let loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "The heat from the laptop warmed your lap. It felt nice.");
 export let mewoText = new RevealingText(document.querySelector("#mewo>h1"), "Meow? (Waiting for something to happen?)");
 export let tissuesText = new RevealingText(document.querySelector("#tissues>h1"), "A tissue box for wiping your sorrows away.");
@@ -51,7 +53,7 @@ let booted = false;
 let state = null;
 
 computer.style.visibility = 'hidden';
-sketchbook.style.visibility = 'hidden';
+// sketchbook.style.visibility = 'hidden';
 cat.style.visibility = 'hidden';
 document.querySelector("#game-container").style.visibility = 'hidden';
 
@@ -193,6 +195,20 @@ const update = (delta) => {
             }
         }
     }
+    if (sketchbookText.isDone === true) {
+        console.log(sketchbookText.isDone)
+        document.querySelector("#tissues>.backnforth").style.visibility = 'visible';
+        let idkWhyButThisWorks = false
+        onkeydown = (event) => {
+            if (event.key == "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
+                reset();
+                idkWhyButThisWorks = true
+                sketchbook.style.visibility = 'hidden';
+                document.querySelector("#sketchText>.backnforth").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[4].style.visibility = 'hidden';
+            }
+        }
+    }
     // exits :meow:
     if (mewoText.isDone == true) {
         document.querySelector("#mewo>.backnforth").style.visibility = 'visible';
@@ -218,7 +234,6 @@ const update = (delta) => {
         let idkWhyButThisWorks = false
         onkeydown = (event) => {
             if (event.key == "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
-                console.log("running")
                 reset();
                 idkWhyButThisWorks = true
                 document.querySelector("#tissues").style.visibility = 'hidden';
@@ -351,6 +366,20 @@ export function laptopSelection(selected) {
 }
 
 export function openSketchbook() {
+    if (state === "exiting") {
+        return;
+    }
+    if (!sketchbookText.isDone && !sketchbookText.oneInstance && state === "canInteractAgain") {
+        document.querySelector("#sketchpad").style.visibility = 'visible';
+        document.querySelector("#sketchbook").style.visibility = 'visible';
+        document.getElementsByClassName("textbox")[4].style.visibility = 'visible';
+        sketchbookText.init();
+    }
+    else if (sketchbookText.isDone) {
+        arrowHands.forEach(arrowHands => {
+            arrowHands.style.visibility = 'hidden';
+        })
+    }
     sketchbook.style.visibility = 'visible';
 }
 
@@ -472,7 +501,16 @@ for (let i = 0; i < document.getElementsByClassName("food").length; i++) {
     })
 }
 
+let toggle = false;
+let toggleCount = 0;
+
 document.getElementsByClassName("toy")[0].addEventListener("click", () => {
+    if (toggleCount % 2 === 0) {
+        toggle = true;
+    } else {
+        toggle = false
+    }
+    toggleCount += 1;
     playWithLaser();
 })
 
@@ -501,7 +539,23 @@ function eat(food) {
 }
 
 function playWithLaser() {
-    document.body.setAttribute('style', 'cursor: url("assets/laser.png"), auto;')
+    console.log(toggle)
+    if (toggle === true) {
+        document.body.setAttribute('style', 'cursor: url("assets/laser.png"), auto;');
+        width = (document.getElementsByClassName(`value`)[1].style.width).slice(0, -1);
+        boredomInterval = setInterval(() => {
+            if (width < 90) {
+                width = Number(width) + 10
+            } else if (width < 100) {
+                width = Number(width) + 5
+            }
+            document.getElementsByClassName(`value`)[1].style.width = `${width}%`
+            }, 2000
+        )
+    } else {
+        document.body.setAttribute('style', 'cursor: default;');
+        clearInterval(boredomInterval);
+    }
 }
 
 // makes the element draggable
