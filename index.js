@@ -560,7 +560,7 @@ function playWithLaser() {
 
 // makes the element draggable
 dragElement(document.getElementById("computer"));
-dragElement(document.getElementById("sketchbook"));
+// dragElement(document.getElementById("sketchbook"));
 dragElement(document.getElementById("game-container"));
 
 function dragElement(element) {
@@ -570,33 +570,97 @@ function dragElement(element) {
     var currentY = 0;
 
     if (document.getElementById(element.id + "header")) {
-    document.getElementById(element.id + "header").onmousedown = startDragging;
+        document.getElementById(element.id + "header").onmousedown = startDragging;
     } else {
-    element.onmousedown = startDragging;
+        element.onmousedown = startDragging;
     }
 
     function startDragging(e) {
-    e = e || window.event;
-    e.preventDefault();
-    initialX = e.clientX;
-    initialY = e.clientY;
-    document.onmouseup = stopDragging;
-    document.onmousemove = dragElement;
+        e = e || window.event;
+        e.preventDefault();
+        initialX = e.clientX;
+        initialY = e.clientY;
+        document.onmouseup = stopDragging;
+        document.onmousemove = dragElement;
     }
 
     function dragElement(e) {
-    e = e || window.event;
-    e.preventDefault();
-    currentX = initialX - e.clientX;
-    currentY = initialY - e.clientY;
-    initialX = e.clientX;
-    initialY = e.clientY;
-    element.style.top = (element.offsetTop - currentY) + "px";
-    element.style.left = (element.offsetLeft - currentX) + "px";
+        e = e || window.event;
+        e.preventDefault();
+        currentX = initialX - e.clientX;
+        currentY = initialY - e.clientY;
+        initialX = e.clientX;
+        initialY = e.clientY;
+        element.style.top = (element.offsetTop - currentY) + "px";
+        element.style.left = (element.offsetLeft - currentX) + "px";
     }
 
     function stopDragging() {
-    document.onmouseup = null;
-    document.onmousemove = null;
+        document.onmouseup = null;
+        document.onmousemove = null;
     }
 }
+
+const sketchCanvas = document.getElementById("sketchCanvas");
+const sketchctx = sketchCanvas.getContext("2d");
+const clearCanvas = document.getElementById("clear-canvas");
+const pen = document.getElementById("pen");
+const eraser = document.getElementById("eraser");
+
+let isDrawing = false;
+
+sketchCanvas.width = sketchCanvas.offsetWidth
+sketchCanvas.height = sketchCanvas.offsetHeight
+
+sketchctx.lineWidth = 5;
+sketchctx.lineCap = 'round';
+sketchctx.strokeStyle = 'black';
+
+function startPos(e) {
+    isDrawing = true;
+    sketch(e);
+}
+
+function endPos(e) {
+    isDrawing = false;
+    sketchctx.beginPath();
+}
+
+function sketch(e) {
+    if (!isDrawing) return;
+    const rect = sketchCanvas.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+    sketchctx.lineTo(x,y);
+    sketchctx.stroke();
+    sketchctx.beginPath();
+    sketchctx.moveTo(x,y)
+    console.log("drawing!")
+}
+
+sketchCanvas.addEventListener('mousedown', startPos);
+sketchCanvas.addEventListener('mouseup', endPos);
+sketchCanvas.addEventListener('mousemove', sketch);
+
+clearCanvas.addEventListener('click',() => {
+    sketchctx.clearRect(
+        0, 0, sketchCanvas.width, sketchCanvas.height
+    )
+})
+
+function activatePen() {
+    sketchctx.globalCompositeOperation = 'source-over';
+    sketchctx.strokeStyle = 'black';
+}
+
+function activateEraser() {
+    sketchctx.globalCompositeOperation = 'destination-out';
+}
+
+pen.addEventListener('click', () => {
+    activatePen();
+})
+
+eraser.addEventListener('click', () => {
+    activateEraser();
+})
