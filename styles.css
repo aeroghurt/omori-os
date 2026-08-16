@@ -325,6 +325,13 @@ h1 {
     z-index: 2;
 }
 
+#sketchpad {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
 #sketchbook {
     position: absolute;
     display: flex;
@@ -359,16 +366,21 @@ h1 {
 
 #clear-canvas {
     grid-area: 5 / 2 / 6 / 3;
+    display: flex;
+    width: 140%;
+    gap: 5%;
+}
+
+#clear-canvas > button {
     color: black;
     font-family: 'omori';
     font-size: 2rem;
     background-color: white;
     border: solid 2px black;
     outline: solid 2px white;
-    margin-right: 5%;
 }
 
-#clear-canvas:hover {
+#clear-canvas > button:hover {
     background-color: rgb(220, 220, 220);
 }
 

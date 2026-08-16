@@ -53,7 +53,7 @@ let booted = false;
 let state = null;
 
 computer.style.visibility = 'hidden';
-// sketchbook.style.visibility = 'hidden';
+sketchbook.style.visibility = 'hidden';
 cat.style.visibility = 'hidden';
 document.querySelector("#game-container").style.visibility = 'hidden';
 
@@ -175,7 +175,6 @@ const update = (delta) => {
                 document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
                 document.querySelector(".textbox3").style.visibility = 'hidden';
                 computer.style.visibility = 'hidden';
-                console.log("laptop exited, ", state)
             }
         }
     }
@@ -191,21 +190,6 @@ const update = (delta) => {
                 document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
                 document.querySelector(".textbox3").style.visibility = 'hidden';
                 computer.style.visibility = 'hidden';
-                console.log("laptop exited, state: ", state)
-            }
-        }
-    }
-    if (sketchbookText.isDone === true) {
-        console.log(sketchbookText.isDone)
-        document.querySelector("#tissues>.backnforth").style.visibility = 'visible';
-        let idkWhyButThisWorks = false
-        onkeydown = (event) => {
-            if (event.key == "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
-                reset();
-                idkWhyButThisWorks = true
-                sketchbook.style.visibility = 'hidden';
-                document.querySelector("#sketchText>.backnforth").style.visibility = 'hidden';
-                document.getElementsByClassName("textbox")[4].style.visibility = 'hidden';
             }
         }
     }
@@ -229,7 +213,6 @@ const update = (delta) => {
     }
 
     if (tissuesText.isDone === true) {
-        console.log(tissuesText.isDone)
         document.querySelector("#tissues>.backnforth").style.visibility = 'visible';
         let idkWhyButThisWorks = false
         onkeydown = (event) => {
@@ -345,7 +328,6 @@ export function laptopSelection(selected) {
             break
         // chose to log off
         case 2:
-            console.log("booted")
             document.getElementsByClassName("textbox")[3].style.visibility = 'visible';
             if (!loggedOffText.isDone && !loggedOffText.oneInstance) {
                 loggedOffText.init();
@@ -371,7 +353,7 @@ export function openSketchbook() {
     }
     if (!sketchbookText.isDone && !sketchbookText.oneInstance && state === "canInteractAgain") {
         document.querySelector("#sketchpad").style.visibility = 'visible';
-        document.querySelector("#sketchbook").style.visibility = 'visible';
+        document.querySelector("#sketchbook").style.visibility = 'hidden';
         document.getElementsByClassName("textbox")[4].style.visibility = 'visible';
         sketchbookText.init();
     }
@@ -381,6 +363,29 @@ export function openSketchbook() {
         })
     }
     sketchbook.style.visibility = 'visible';
+}
+
+export function sketchbookSelection(selected) {
+    switch (selected) {
+        case 0:
+            console.log("Chose look at sketchbook");
+            document.querySelector("#sketchpad").style.visibility = 'hidden';
+            document.querySelector("#sketchbook").style.visibility = 'hidden';
+            document.getElementsByClassName("textbox")[4].style.visibility = 'hidden';
+            document.getElementsByClassName("textbox2")[0].style.visibility = 'hidden';
+            document.getElementById("sketchbook").style.visibility = 'visible';
+            reset();
+            break
+        // chose to look at the journal
+        case 1:
+            console.log("Chose to not look at journal");
+            document.querySelector("#sketchpad").style.visibility = 'hidden';
+            document.querySelector("#sketchbook").style.visibility = 'hidden';
+            document.getElementsByClassName("textbox")[4].style.visibility = 'hidden';
+            document.getElementsByClassName("textbox2")[0].style.visibility = 'hidden';
+            reset();
+            break
+    }
 }
 
 export function meow() {
@@ -539,7 +544,6 @@ function eat(food) {
 }
 
 function playWithLaser() {
-    console.log(toggle)
     if (toggle === true) {
         document.body.setAttribute('style', 'cursor: url("assets/laser.png"), auto;');
         width = (document.getElementsByClassName(`value`)[1].style.width).slice(0, -1);
@@ -560,7 +564,7 @@ function playWithLaser() {
 
 // makes the element draggable
 dragElement(document.getElementById("computer"));
-// dragElement(document.getElementById("sketchbook"));
+dragElement(document.getElementById("sketchbook"));
 dragElement(document.getElementById("game-container"));
 
 function dragElement(element) {
@@ -571,6 +575,8 @@ function dragElement(element) {
 
     if (document.getElementById(element.id + "header")) {
         document.getElementById(element.id + "header").onmousedown = startDragging;
+    } else if (document.getElementById("sketchCanvas")) {
+        return; 
     } else {
         element.onmousedown = startDragging;
     }
@@ -609,8 +615,8 @@ const eraser = document.getElementById("eraser");
 
 let isDrawing = false;
 
-sketchCanvas.width = sketchCanvas.offsetWidth
-sketchCanvas.height = sketchCanvas.offsetHeight
+sketchCanvas.width = sketchCanvas.offsetWidth;
+sketchCanvas.height = sketchCanvas.offsetHeight;
 
 sketchctx.lineWidth = 5;
 sketchctx.lineCap = 'round';
@@ -631,6 +637,7 @@ function sketch(e) {
     const rect = sketchCanvas.getBoundingClientRect();
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
+    sketchctx.imageSmoothingEnabled = false;
     sketchctx.lineTo(x,y);
     sketchctx.stroke();
     sketchctx.beginPath();

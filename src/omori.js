@@ -38,6 +38,8 @@ import { laptopSelection } from '/index.js';
 import { arrowHands } from '/index.js';
 import { reset } from '/index.js';
 import { wipeYourSorrowsAway } from '/index.js';
+import { sketchbookText } from '/index.js';
+import { sketchbookSelection } from '/index.js';
 
 let input = null;
 
@@ -89,13 +91,12 @@ export class Omori extends GameObject {
             })
         }
         if ((input?.getActionJustPressed("ArrowDown") && !selectionMenu) || (input?.getActionJustPressed("ArrowUp") && !selectionMenu)) {
-            let parent = this.interactSketchbook() || this.interactLaptop() || this.interactMewo() || this.interactTissues();
+            let parent = this.interactSketchbook() || this.interactLaptop();
             this.select(parent);
         }
     }
 
-    ready() {
-    }
+    ready() {}
 
     tryEmitPosition() {
         if (this.lastX === this.position.x && this.lastY === this.position.y) {
@@ -115,7 +116,7 @@ export class Omori extends GameObject {
     }
 
     select(parent) {
-        if (newText.isDone && !selectionMenu && window.getComputedStyle(parent).visibility == 'visible') {
+        if (newText.isDone || sketchbookText.isDone && !selectionMenu && window.getComputedStyle(parent).visibility == 'visible') {
             console.log("Made selectionmenu true :DDD")
             selectionMenu = true
         }
@@ -125,7 +126,12 @@ export class Omori extends GameObject {
                     document.getElementsByClassName("laptopOptions")[i].style.visibility = 'hidden';
             }
             selected = 0;
-            document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
+            if (newText.isDone) {
+                document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
+            } else {
+                document.getElementsByClassName("sketchbookOptions")[selected].style.visibility = 'visible';  
+            }
+            
             if (parent.classList == "textbox3") {
                 document.getElementsByClassName("laptopOptions")[selected].style.visibility = 'visible';
                 onkeydown = (event) => {
@@ -160,6 +166,41 @@ export class Omori extends GameObject {
                     }
                 }
             }
+            if (parent.classList == "textbox2") {
+                document.getElementsByClassName("sketchbookOptions")[selected].style.visibility = 'visible';
+                onkeydown = (event) => {
+                    if (event.key == "ArrowDown") {
+                        keyDirection = "down"
+                        selected = this.selecting(children)
+                        for (let i = 0; i < children.length; i++) {
+                            document.getElementsByClassName("sketchbookOptions")[i].style.visibility = 'hidden';
+                            document.getElementsByClassName("sketchbookOptions")[selected].style.visibility = 'visible';
+                        }
+                    }
+                    if (event.key == "ArrowUp") {
+                        keyDirection = "up"
+                        selected = this.selecting(children)
+                        for (let i = 0; i < children.length; i++) {
+                            document.getElementsByClassName("sketchbookOptions")[i].style.visibility = 'hidden';
+                            document.getElementsByClassName("sketchbookOptions")[selected].style.visibility = 'visible';
+                        }
+                    }
+                    // selects one of the options
+                    if (event.key == "z" && window.getComputedStyle(parent).visibility == 'visible') {
+                        keyDirection = "none";
+                        selected = this.selecting(children);
+                        document.querySelector(".textbox2").style.visibility = 'hidden';
+                        document.getElementsByClassName("textbox")[4].style.visibility = 'hidden';
+                        arrowHands.forEach(arrowHands => {
+                            arrowHands.style.visibility = 'hidden';
+                        })
+                        sketchbookSelection(selected);
+                        selectionMenu = false;
+                        console.log(`option selected`)
+                    }
+                }
+            }
+        
         } else {
             console.log(`did not meet one of the requirements, selectionmenu is: ${selectionMenu}`)
         }
