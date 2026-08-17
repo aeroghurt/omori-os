@@ -284,7 +284,6 @@ export class Omori extends GameObject {
         if (distFromLaptopX <= 25 && distFromLaptopY <= 25 && distFromLaptopX >= 0 && distFromLaptopY >= 0) {
             bootLaptop();
             return document.querySelector(".textbox3");
-            selectionMenu = true;
         }
     }
 

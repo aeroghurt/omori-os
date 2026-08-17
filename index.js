@@ -145,6 +145,7 @@ mainScene.input = new Input();
 
 const update = (delta) => {
     ctx.clearRect(0, 0, 320, 180);
+    console.log(state)
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
@@ -430,7 +431,8 @@ export function reset() {
     mewoText.isDone = false;
     mewoText.oneInstance = false;
     tissuesText.isDone = false;
-    tissuesText.oneInstance = false;
+    sketchText.oneInstance = false;
+    sketchText.isDone = false;
     booted = false;
     document.getElementsByClassName("container")[0].style.background = 'black';
     for (let i = document.getElementsByTagName("span").length - 1; i >= 0; i--) {
@@ -641,8 +643,7 @@ function sketch(e) {
     sketchctx.lineTo(x,y);
     sketchctx.stroke();
     sketchctx.beginPath();
-    sketchctx.moveTo(x,y)
-    console.log("drawing!")
+    sketchctx.moveTo(x,y);
 }
 
 sketchCanvas.addEventListener('mousedown', startPos);

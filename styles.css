@@ -359,16 +359,41 @@ h1 {
     grid-row-gap: 0px;
 }
 
-#pen { grid-area: 1 / 2 / 2 / 3; }
-#eraser { grid-area: 2 / 2 / 3 / 3}
-#color { grid-area: 3 / 2 / 4 / 3; }
+#pen { 
+    grid-area: 1 / 2 / 2 / 3; 
+}
+
+#pen:hover {
+    opacity: 85%;
+}
+
+#eraser {
+    grid-area: 2 / 2 / 3 / 3;
+}
+
+#eraser:hover {
+    opacity: 85%;
+}
+
+#color { 
+    grid-area: 4 / 2 / 5 / 3;;
+    margin-right: 5%;
+    display: flex;
+    align-items: center;
+    gap: 5%;
+}
+
+#color > input {
+    border-radius: 0;
+}
+
+ /* 3 / 2 / 4 / 3; */
 .div4 { grid-area: 4 / 2 / 5 / 3; }
 
 #clear-canvas {
     grid-area: 5 / 2 / 6 / 3;
     display: flex;
-    width: 140%;
-    gap: 5%;
+    margin-right: 5%;
 }
 
 #clear-canvas > button {
@@ -384,6 +409,36 @@ h1 {
     background-color: rgb(220, 220, 220);
 }
 
-.div5 { grid-area: 6 / 2 / 9 / 3; }
+#change-size { 
+    grid-area: 6 / 2 / 9 / 3;;
+    display: grid;
+    width: 150%;
+    height: 50%;
+    place-content: center;
+    grid-template-rows: 1fr 3fr;
+    background-color: rgb(255, 255, 255);
+    border: solid 3px rgb(0, 0, 0);
+    outline: solid 3px rgb(255, 255, 255);
+    margin-right: 5%;
+    padding: 5%;
+}
+
+#change-size > p {
+    font-family: 'omori';
+    font-size: 2rem;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+#change-size > div > button {
+    background-color: white;
+    border: solid 1px black;
+} 
+
+#change-size > div > button:hover {
+    background-color: rgb(236, 236, 236);
+} 
+
 .div6 { grid-area: 6 / 1 / 9 / 2; }
     
