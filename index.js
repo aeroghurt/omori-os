@@ -615,6 +615,7 @@ const clearCanvas = document.getElementById("clear-canvas");
 const colorPicker = document.getElementById("color-picker");
 const pen = document.getElementById("pen");
 const eraser = document.getElementById("eraser");
+const close = document.getElementById("close");
 
 let isDrawing = false;
 
@@ -673,6 +674,10 @@ pen.addEventListener('click', () => {
 
 eraser.addEventListener('click', () => {
     activateEraser();
+})
+
+close.addEventListener('click', () => {
+    document.querySelector("#sketchbook").style.visibility = 'hidden';
 })
 
 let size;
