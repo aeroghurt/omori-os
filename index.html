@@ -13,12 +13,25 @@
             <div class="computer-hud">
                 <button type="button" style="font-family: 'Tiny5'; color: black; letter-spacing: 4px; font-size: 2rem;">START</button>
                 <div></div>
-                <button class="time" type="button" style="font-family: 'omori'; color: black; font-size: 1.9rem;">0:00 AM</button>
+                <button class="time" type="button" style="font-family: 'omori'; color: black; font-size: 2cqw;">0:00 AM</button>
             </div>
         </div>
-        <div id="journal">
-
+        <div id="journal-container">
+            <div id="journal">
+                <div class="handle">
+                    <div class="app-name">
+                        <p>AEROGHURT'S JOURNAL</p>
+                    </div>
+                    <button type="button" class="close-button">
+                        <img src="assets/x.png">
+                    </button>
+                </div>
+                <div class="screen">
+                    
+                </div>
+            </div>
         </div>
+        
         <div id="laptop-start" class="textbox">
             <h1 class="typewriter">
                 <!-- You booted up your laptop. -->
@@ -66,19 +79,18 @@
 
     <div id="sketchpad" class="container">
         <div id="sketchbook">
-            <canvas id="sketchCanvas">
-                
-            </canvas>
+            <canvas id="sketchCanvas"></canvas>
             <div id="selectionBar">
                 <img src="assets/pen.png" id="pen">
                 <img src="assets/eraser.png" id="eraser">
                 <div id="clear-canvas">
+                    <!-- doesn't do anything cool im sorry -->
                     <button>Self-destruct</button>
                 </div>
                 <img src="assets/close.png" id="close">
                 <div id="color">
                     <h1 style="color: white; font-size: 2rem;">Color</h1>
-                    <input type="color" id="color-picker" name="color-picker" value="black">
+                    <input type="color" id="color-picker" name="color-picker">
                 </div>
                 <div id="change-size">
                     <p>Change size</p>

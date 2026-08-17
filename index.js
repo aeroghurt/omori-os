@@ -1,35 +1,35 @@
 // disclaimer: some of the worst code you've ever seen
-import { resources } from '/src/resource.js';
-import { Sprite } from '/src/sprite.js';
-import { Vector2 } from '/src/vector2.js';
-import { GameLoop } from '/src/gameLoop.js';
-import { Input } from '/src/input.js';
-import { LEFT } from '/src/input.js';
-import { RIGHT } from '/src/input.js';
-import { UP } from '/src/input.js';
-import { DOWN } from '/src/input.js';
-import { GridCells } from '/src/grid.js';
-import { isSpaceFree } from '/src/grid.js';
-import { moveTowards } from '/src/moveTowards.js';
-import { walls } from '/src/map.js';
-import { FrameIndexPattern } from "/src/frameIndexPattern.js";
-import { Animations } from '/src/animations.js';
-import { WALK_DOWN } from '/src/omoriAnimations.js';
-import { WALK_LEFT } from '/src/omoriAnimations.js';
-import { WALK_RIGHT } from '/src/omoriAnimations.js';
-import { WALK_UP } from '/src/omoriAnimations.js';
-import { STAND_DOWN } from '/src/omoriAnimations.js';
-import { STAND_LEFT } from '/src/omoriAnimations.js';
-import { STAND_RIGHT } from '/src/omoriAnimations.js';
-import { STAND_UP } from '/src/omoriAnimations.js';
-import { LAPTOP } from '/src/objectAnimations.js';
-import { LIGHTBULB } from '/src/objectAnimations.js';
-import { MEWO } from '/src/objectAnimations.js';
-import { GameObject } from '/src/gameObject.js';
-import { Omori } from '/src/omori.js';
-import { events } from '/src/events.js';
-import { Camera } from '/src/camera.js'
-import { RevealingText } from '/src/revealingText.js';
+import { resources } from './src/resource.js';
+import { Sprite } from './src/sprite.js';
+import { Vector2 } from './src/vector2.js';
+import { GameLoop } from './src/gameLoop.js';
+import { Input } from './src/input.js';
+import { LEFT } from './src/input.js';
+import { RIGHT } from './src/input.js';
+import { UP } from './src/input.js';
+import { DOWN } from './src/input.js';
+import { GridCells } from './src/grid.js';
+import { isSpaceFree } from './src/grid.js';
+import { moveTowards } from './src/moveTowards.js';
+import { walls } from './src/map.js';
+import { FrameIndexPattern } from "./src/frameIndexPattern.js";
+import { Animations } from './src/animations.js';
+import { WALK_DOWN } from './src/omoriAnimations.js';
+import { WALK_LEFT } from './src/omoriAnimations.js';
+import { WALK_RIGHT } from './src/omoriAnimations.js';
+import { WALK_UP } from './src/omoriAnimations.js';
+import { STAND_DOWN } from './src/omoriAnimations.js';
+import { STAND_LEFT } from './src/omoriAnimations.js';
+import { STAND_RIGHT } from './src/omoriAnimations.js';
+import { STAND_UP } from './src/omoriAnimations.js';
+import { LAPTOP } from './src/objectAnimations.js';
+import { LIGHTBULB } from './src/objectAnimations.js';
+import { MEWO } from './src/objectAnimations.js';
+import { GameObject } from './src/gameObject.js';
+import { Omori } from './src/omori.js';
+import { events } from './src/events.js';
+import { Camera } from './src/camera.js'
+import { RevealingText } from './src/revealingText.js';
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
@@ -56,6 +56,7 @@ computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
 cat.style.visibility = 'hidden';
 document.querySelector("#game-container").style.visibility = 'hidden';
+document.querySelector("#journal").style.visibility = 'visible';
 
 document.querySelectorAll(".textbox").forEach(element => {
     element.style.visibility = 'hidden';
@@ -153,7 +154,7 @@ const update = (delta) => {
     if (newText.isDone == true && !booted) {
         document.querySelector("#laptop-start>.backnforth").style.visibility = 'visible';
         onkeydown = (event) => {
-            if (event.key == "z" && !booted) {
+            if (event.key === "z" && !booted) {
                 computer.style.visibility = 'visible';
                 laptop_start.style.visibility = 'hidden';
                 document.querySelector("#computer").style.visibility = 'visible';
@@ -167,7 +168,7 @@ const update = (delta) => {
     if (staredText.isDone == true) {
         document.querySelector("#stared>.backnforth").style.visibility = 'visible';
         onkeydown = (event) => {
-            if (event.key == "z" && booted) {;
+            if (event.key === "z" && booted) {;
                 reset();
                 document.querySelector("#computer").style.visibility = 'hidden';
                 document.getElementById("stared").style.visibility = 'hidden';
@@ -183,7 +184,7 @@ const update = (delta) => {
     if (loggedOffText.isDone == true) {
         document.querySelector("#loggedOff>.backnforth").style.visibility = 'visible';
         onkeydown = (event) => {
-            if (event.key == "z" && booted) {
+            if (event.key === "z" && booted) {
                 reset();
                 document.getElementById("loggedOff").style.visibility = 'hidden';
                 document.querySelector("#loggedOff>.backnforth").style.visibility = 'hidden';
@@ -199,7 +200,7 @@ const update = (delta) => {
         document.querySelector("#mewo>.backnforth").style.visibility = 'visible';
         let idkWhyButThisWorks = false
         onkeydown = (event) => {
-            if (event.key == "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
+            if (event.key === "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
                 reset();
                 idkWhyButThisWorks = true
                 document.querySelector("#mewo").style.visibility = 'hidden';
@@ -217,7 +218,7 @@ const update = (delta) => {
         document.querySelector("#tissues>.backnforth").style.visibility = 'visible';
         let idkWhyButThisWorks = false
         onkeydown = (event) => {
-            if (event.key == "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
+            if (event.key === "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
                 reset();
                 idkWhyButThisWorks = true
                 document.querySelector("#tissues").style.visibility = 'hidden';
@@ -485,7 +486,7 @@ function random_position(element) {
     element.setAttribute("style", `position: relative; top: ${random_pos_y}%; left: ${random_pos_x}%`);
 }
 
-document.querySelector(".close-button").addEventListener("click", () => {
+document.querySelectorAll(".close-button")[1].addEventListener("click", () => {
     document.querySelector("#game-container").style.visibility = 'hidden';
 })
 
@@ -566,8 +567,8 @@ function playWithLaser() {
 
 // makes the element draggable
 dragElement(document.getElementById("computer"));
-dragElement(document.getElementById("sketchbook"));
 dragElement(document.getElementById("game-container"));
+dragElement(document.getElementById("journal-container"));
 
 function dragElement(element) {
     var initialX = 0;
@@ -577,8 +578,6 @@ function dragElement(element) {
 
     if (document.getElementById(element.id + "header")) {
         document.getElementById(element.id + "header").onmousedown = startDragging;
-    } else if (document.getElementById("sketchCanvas")) {
-        return; 
     } else {
         element.onmousedown = startDragging;
     }
@@ -707,3 +706,8 @@ function changeSize(size) {
     }
     sketchctx.lineWidth = specifiedSize;
 }
+
+document.querySelectorAll(".close-button")[0].addEventListener("click", () => {
+    document.querySelector("#journal").style.visibility = 'hidden';
+    console.log("hello");
+})

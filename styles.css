@@ -37,6 +37,11 @@ h1 {
     padding: 3%;
 }
 
+img {
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -145,6 +150,30 @@ h1 {
     margin-right: 5%;
 }
 
+#journal-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#journal {
+    display: grid;
+    width: 55%;
+    height: 80%;
+    background-color: white;
+    border: solid 3px rgb(0, 0, 0);
+    margin: 0;
+    padding: 0.5%;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr 8fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
 .typewriter {
     width: 85%;
     height: 85%;
@@ -179,7 +208,7 @@ h1 {
     width: 55%;
     height: 80%;
     background-color: white;
-    border: solid 3px grey;
+    border: solid 3px rgb(0, 0, 0);
     margin: 0;
     padding: 0.5%;
     grid-template-columns: repeat(5, 1fr);
