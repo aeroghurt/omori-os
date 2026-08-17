@@ -1,4 +1,4 @@
-import { FrameIndexPattern } from "./src/frameIndexPattern.js";
+import { FrameIndexPattern } from "/frameIndexPattern.js";
 
 export class Animations {
     constructor(patterns) {

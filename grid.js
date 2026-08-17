@@ -1,4 +1,4 @@
-import { walls } from './src/map.js';
+import { walls } from '/map.js';
 
 export const GridCells = n => {
     return n * 32;

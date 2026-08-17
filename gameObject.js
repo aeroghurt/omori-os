@@ -1,4 +1,4 @@
-import { Vector2 } from './src/vector2.js';
+import { Vector2 } from '/vector2.js';
 
 export class GameObject {
     constructor({ position }) {
