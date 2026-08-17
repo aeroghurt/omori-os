@@ -1,35 +1,4 @@
 // disclaimer: some of the worst code you've ever seen
-// import { resources } from '/resource.js';
-// import { Sprite } from '/sprite.js';
-// import { Vector2 } from '/vector2.js';
-// import { GameLoop } from '/gameLoop.js';
-// import { Input } from '/input.js';
-// import { LEFT } from '/input.js';
-// import { RIGHT } from '/input.js';
-// import { UP } from '/input.js';
-// import { DOWN } from '/input.js';
-// import { GridCells } from '/grid.js';
-// import { isSpaceFree } from '/grid.js';
-// import { moveTowards } from '/moveTowards.js';
-// import { walls } from '/map.js';
-// import { FrameIndexPattern } from "/frameIndexPattern.js";
-// import { Animations } from '/animations.js';
-// import { WALK_DOWN } from '/omoriAnimations.js';
-// import { WALK_LEFT } from '/omoriAnimations.js';
-// import { WALK_RIGHT } from '/omoriAnimations.js';
-// import { WALK_UP } from '/omoriAnimations.js';
-// import { STAND_DOWN } from '/omoriAnimations.js';
-// import { STAND_LEFT } from '/omoriAnimations.js';
-// import { STAND_RIGHT } from '/omoriAnimations.js';
-// import { STAND_UP } from '/omoriAnimations.js';
-// import { LAPTOP } from '/objectAnimations.js';
-// import { LIGHTBULB } from '/objectAnimations.js';
-// import { MEWO } from '/objectAnimations.js';
-// import { GameObject } from '/gameObject.js';
-// import { Omori } from '/omori.js';
-// import { events } from '/events.js';
-// import { Camera } from '/camera.js'
-// import { RevealingText } from '/revealingText.js';
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
@@ -696,8 +665,6 @@ const MakeWalkingFrames = (rootFrame = 0) => {
     }
 }
 
-
-
 const MakeStandingFrames = (rootFrame = 0) => {
     return {
         duration: 400,
@@ -1162,6 +1129,15 @@ function laptopSelection(selected) {
             break
         // chose to look at the journal
         case 1:
+            document.querySelector("#journal").style.visibility = 'visible';
+            reset();
+            document.getElementById("loggedOff").style.visibility = 'hidden';
+            document.querySelector("#loggedOff>.backnforth").style.visibility = 'hidden';
+            document.querySelector("#laptop-start").style.visibility = 'hidden';
+            document.querySelector("#computer").style.visibility = 'hidden';
+            document.getElementsByClassName("textbox")[1].style.visibility = 'hidden';
+            document.querySelector(".textbox3").style.visibility = 'hidden';
+            computer.style.visibility = 'hidden'
             console.log("Chose to look at journal");
             break
         // chose to log off
@@ -1545,5 +1521,24 @@ function changeSize(size) {
 
 document.querySelectorAll(".close-button")[0].addEventListener("click", () => {
     document.querySelector("#journal").style.visibility = 'hidden';
-    console.log("hello");
 })
+
+document.getElementsByClassName("tab")[0].onclick = () => {
+    document.getElementsByClassName("tab")[0].setAttribute('style', 'z-index: 1;');
+    document.getElementsByClassName("tab")[0].classList.add("tab-selected");
+    document.getElementsByClassName("tab")[1].setAttribute('style', '');
+    document.getElementsByClassName("tab")[1].classList.remove("tab-selected");
+    document.getElementsByClassName("entry")[0].style.visibility = 'visible';
+    document.getElementsByClassName("entry")[1].style.visibility = 'hidden';
+    document.querySelector("#journal>.handle>.app-name>p").innerText = "AEROGHURT'S JOURNAL";
+}
+
+document.getElementsByClassName("tab")[1].onclick = () => {
+    document.getElementsByClassName("tab")[1].setAttribute('style', 'z-index: 1;')
+    document.getElementsByClassName("tab")[1].classList.add("tab-selected");
+    document.getElementsByClassName("tab")[0].setAttribute('style', '')
+    document.getElementsByClassName("tab")[0].classList.remove("tab-selected");
+    document.getElementsByClassName("entry")[1].style.visibility = 'visible';
+    document.getElementsByClassName("entry")[0].style.visibility = 'hidden';
+    document.querySelector("#journal>.handle>.app-name>p").innerText = "YOUR JOURNAL";
+}
