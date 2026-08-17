@@ -145,7 +145,7 @@ mainScene.input = new Input();
 
 const update = (delta) => {
     ctx.clearRect(0, 0, 320, 180);
-    console.log(state)
+    // console.log(state)
     laptop.animations.play("laptop")
     mainScene.stepEntry(delta, mainScene);
     mainScene.input?.update();
@@ -612,6 +612,7 @@ function dragElement(element) {
 const sketchCanvas = document.getElementById("sketchCanvas");
 const sketchctx = sketchCanvas.getContext("2d");
 const clearCanvas = document.getElementById("clear-canvas");
+const colorPicker = document.getElementById("color-picker");
 const pen = document.getElementById("pen");
 const eraser = document.getElementById("eraser");
 
@@ -622,7 +623,7 @@ sketchCanvas.height = sketchCanvas.offsetHeight;
 
 sketchctx.lineWidth = 5;
 sketchctx.lineCap = 'round';
-sketchctx.strokeStyle = 'black';
+sketchctx.strokeStyle = colorPicker.value;
 
 function startPos(e) {
     isDrawing = true;
@@ -636,6 +637,7 @@ function endPos(e) {
 
 function sketch(e) {
     if (!isDrawing) return;
+    sketchctx.strokeStyle = colorPicker.value;
     const rect = sketchCanvas.getBoundingClientRect();
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
@@ -672,3 +674,31 @@ pen.addEventListener('click', () => {
 eraser.addEventListener('click', () => {
     activateEraser();
 })
+
+let size;
+let specifiedSize;
+
+for (let i = 0; i < document.querySelectorAll(".size>img").length; i++) {
+    document.querySelectorAll(".size>img")[i].addEventListener('click', (event) => {
+        size = document.querySelectorAll(".size>img")[i].getAttribute("src");
+        changeSize(size);
+    })
+}
+
+function changeSize(size) {
+    switch (size) {
+        case "assets/size1.png":
+            specifiedSize = 5;
+            break;
+        case "assets/size2.png":
+            specifiedSize = 10;
+            break;
+        case "assets/size3.png":
+            specifiedSize = 15;
+            break;
+        case "assets/size4.png":
+            specifiedSize = 20;
+            break;
+    }
+    sketchctx.lineWidth = specifiedSize;
+}

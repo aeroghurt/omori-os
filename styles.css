@@ -442,3 +442,6 @@ h1 {
 
 .div6 { grid-area: 6 / 1 / 9 / 2; }
     
+.toggled {
+    background-color: rgb(220, 220, 220);
+}
