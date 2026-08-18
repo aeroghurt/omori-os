@@ -9,5 +9,6 @@ Interact: press Z to interact with objects, arrow keys to pick options, and Z ag
 
 ## Features
 ### Journal
+Write your *own* journal in the webOS's built-in text editor (of some sorts).
 
 ### Mewo Pet Simulator

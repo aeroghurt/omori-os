@@ -1380,7 +1380,7 @@ function playWithLaser() {
 // makes the element draggable
 dragElement(document.getElementById("computer"));
 dragElement(document.getElementById("game-container"));
-dragElement(document.getElementById("journal-container"));
+// dragElement(document.getElementById("journal-container"));
 
 function dragElement(element) {
     var initialX = 0;
@@ -1521,6 +1521,8 @@ function changeSize(size) {
 
 document.querySelectorAll(".close-button")[0].addEventListener("click", () => {
     document.querySelector("#journal").style.visibility = 'hidden';
+    document.getElementsByClassName("window")[0].style.visibility = 'hidden';
+    document.getElementsByClassName("window")[1].style.visibility = 'hidden';
 })
 
 document.getElementsByClassName("tab")[0].onclick = () => {
@@ -1528,8 +1530,8 @@ document.getElementsByClassName("tab")[0].onclick = () => {
     document.getElementsByClassName("tab")[0].classList.add("tab-selected");
     document.getElementsByClassName("tab")[1].setAttribute('style', '');
     document.getElementsByClassName("tab")[1].classList.remove("tab-selected");
-    document.getElementsByClassName("entry")[0].style.visibility = 'visible';
-    document.getElementsByClassName("entry")[1].style.visibility = 'hidden';
+    document.getElementsByClassName("window")[0].style.visibility = 'visible';
+    document.getElementsByClassName("window")[1].style.visibility = 'hidden';
     document.querySelector("#journal>.handle>.app-name>p").innerText = "AEROGHURT'S JOURNAL";
 }
 
@@ -1538,7 +1540,50 @@ document.getElementsByClassName("tab")[1].onclick = () => {
     document.getElementsByClassName("tab")[1].classList.add("tab-selected");
     document.getElementsByClassName("tab")[0].setAttribute('style', '')
     document.getElementsByClassName("tab")[0].classList.remove("tab-selected");
-    document.getElementsByClassName("entry")[1].style.visibility = 'visible';
-    document.getElementsByClassName("entry")[0].style.visibility = 'hidden';
+    document.getElementsByClassName("window")[1].style.visibility = 'visible';
+    document.getElementsByClassName("window")[0].style.visibility = 'hidden';
     document.querySelector("#journal>.handle>.app-name>p").innerText = "YOUR JOURNAL";
 }
+
+
+
+// const userEntry = document.getElementsByClassName("entry")[1];
+// const userInput = document.getElementById("user-input");
+
+// let entries = JSON.parse(localStorage.getItem('entries')) || [];
+
+// function saveJournal() {
+//     localStorage.setItem('entries', JSON.stringify(entries));
+// }
+
+// function renderJournal() {
+//     // document.getElementById("entries").innerHTML = '';
+//     entries.forEach((entry, index) => {
+//         const div = document.createElement('div');
+//         div.classList.add('entry')
+//         // div.className = 'entry';
+//         div.textContent = entry;
+
+//         const deleteButton = document.createElement('button');
+//         deleteButton.textButton = 'X';
+//         deleteButton.onclick = () => {
+//             entries.splice(index, 1);
+//             saveJournal();
+//             renderJournal();
+//         }
+//         div.appendChild(deleteButton);
+//         document.getElementById("entries").appendChild(div);
+//     })
+// }
+
+// document.getElementById('journal-form').addEventListener('submit', e => {
+//     e.preventDefault();
+//     const entry = userInput.value.trim();
+//     if (!entry) return;
+//     entries.push(entry);
+//     userInput.value = '';
+//     saveJournal();
+//     renderJournal();
+// })
+
+// renderJournal();

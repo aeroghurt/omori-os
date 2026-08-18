@@ -29,15 +29,23 @@
                 <div class="screen">
                     <div class="tab tab-selected" style="z-index: 1">ghurt's journal</div>
                     <div class="tab">your journal</div>
-                    <div id="window" style="z-index: 2">
+                    <div class="window" style="z-index: 2; visibility: visible;">
                         <div class="entry">
                             <h1>I see you have found my journal...</h1>
                             <p>Made by aeroghurt :D preferably ghurt but aero is fine as well. I'm a teen programmer, artist, writer, weeb and absolute horror fanatic. This site was made in 60 hours and counting. <br>
                             Take a look at my <a href="https://github.com/aeroghurt" style="background-color:white; color: black;">GitHub</a>!
                             </p>
                         </div>
-                        <div class="entry">
-
+                        <!-- <div id="entries" style="visibility: hidden;">
+                            <form id="journal-form">
+                                <textarea id="user-input" placeholder="Write about anything..." required style="font-family: 'omori'; font-size: 1.5rem;"></textarea>
+                                <button type="submit">Add new entry</button>
+                            </form>
+                        </div> -->
+                    </div>
+                    <div class="window" style="z-index: 2; visibility: hidden;">
+                        <div id="entries">
+                            <h1 contenteditable="true">hello world</h1>
                         </div>
                     </div>
                 </div>
