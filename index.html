@@ -43,9 +43,14 @@
                             </form>
                         </div> -->
                     </div>
-                    <div class="window" style="z-index: 2; visibility: hidden;">
+                    <div class="window" style="z-index: 2; visibility: hidden; display: flex; flex-direction: column;">
+                        <div id="textEditor">
+                            <p contenteditable="true">Edit content</p>
+                            <button type="button">Create new entry</button>
+                        </div>
+                        
                         <div id="entries">
-                            <h1 contenteditable="true">hello world</h1>
+
                         </div>
                     </div>
                 </div>

@@ -1380,7 +1380,10 @@ function playWithLaser() {
 // makes the element draggable
 dragElement(document.getElementById("computer"));
 dragElement(document.getElementById("game-container"));
-// dragElement(document.getElementById("journal-container"));
+dragElement(document.getElementById("journal-container"));
+document.getElementById("textEditor").addEventListener('mousedown', (e) => {
+    e.stopPropagation();
+})
 
 function dragElement(element) {
     var initialX = 0;
@@ -1545,45 +1548,45 @@ document.getElementsByClassName("tab")[1].onclick = () => {
     document.querySelector("#journal>.handle>.app-name>p").innerText = "YOUR JOURNAL";
 }
 
+function renderJournal(entryContent) {
+    document.getElementById("entries").innerHTML = '';
+    entries.forEach((entry, index) => {
+        const div = document.createElement('div');
+        div.classList.add('entry');
+        const p = document.createElement('p');
+        p.textContent = entry;
 
+        const deleteButton = document.createElement('button');
+        deleteButton.textButton = 'X';
+        deleteButton.onclick = () => {
+            entries.splice(index, 1);
+            saveJournal();
+            renderJournal();
+        }
+        div.appendChild(p)
+        div.appendChild(deleteButton);
+        document.getElementById("entries").appendChild(div);
+    })
+}
 
-// const userEntry = document.getElementsByClassName("entry")[1];
-// const userInput = document.getElementById("user-input");
+let entries = JSON.parse(localStorage.getItem('entries')) || [];
 
-// let entries = JSON.parse(localStorage.getItem('entries')) || [];
+function saveJournal() {
+    localStorage.setItem('entries', JSON.stringify(entries));
+    console.log("saving...")
+}
 
-// function saveJournal() {
-//     localStorage.setItem('entries', JSON.stringify(entries));
-// }
+document.querySelector('#textEditor>button').addEventListener('click', () => {
+    // const elementTitle = document.querySelector("#textEditor>h1")
+    const elementContent = document.querySelector("#textEditor>p")
+    // const entryTitle = elementTitle.innerHTML.trim();
+    const entryContent = elementContent.innerHTML.trim();
+    if (!entryContent) return;
+    entries.push(entryContent);
+    saveJournal();
+    renderJournal(entryContent);
+    // elementTitle.innerHTML = '';
+    elementContent.innerHTML = 'Edit content';
+})
 
-// function renderJournal() {
-//     // document.getElementById("entries").innerHTML = '';
-//     entries.forEach((entry, index) => {
-//         const div = document.createElement('div');
-//         div.classList.add('entry')
-//         // div.className = 'entry';
-//         div.textContent = entry;
-
-//         const deleteButton = document.createElement('button');
-//         deleteButton.textButton = 'X';
-//         deleteButton.onclick = () => {
-//             entries.splice(index, 1);
-//             saveJournal();
-//             renderJournal();
-//         }
-//         div.appendChild(deleteButton);
-//         document.getElementById("entries").appendChild(div);
-//     })
-// }
-
-// document.getElementById('journal-form').addEventListener('submit', e => {
-//     e.preventDefault();
-//     const entry = userInput.value.trim();
-//     if (!entry) return;
-//     entries.push(entry);
-//     userInput.value = '';
-//     saveJournal();
-//     renderJournal();
-// })
-
-// renderJournal();
+renderJournal();
