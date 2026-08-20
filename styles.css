@@ -224,6 +224,9 @@ img {
 #entries {
     width: 100%;
     height: 70%;
+    max-height: 35cqh;
+    max-width: 50cqw;
+    overflow: scroll;
 }
 
 .entry {
@@ -246,20 +249,31 @@ img {
     margin: 0;
 }
 
+#entries > .entry > button {
+    font-family: 'omori';
+    min-height: 20px;
+    min-width: 20px;
+    color: black;
+    background-color: white;
+    border: solid 2px black;
+    outline: solid 2px white;
+    align-self: end;
+}
+
+#entries > .entry > button:hover {
+    color: white;
+    background-color: black;
+    border: solid 2px black;
+    outline: solid 2px white;
+    align-self: end;
+}
+
 .window > .entry > p {
     font-family: 'omori';
     color: white;
     font-size: 2rem;
     margin: 0;
     text-align: justify;
-}
-
-#textEditor > h1 {
-    font-family: 'omori';
-    color: white;
-    font-size: 2.5rem;
-    margin: 2% 0;
-    padding: 0 3%;
 }
 
 #textEditor > p {
@@ -595,4 +609,14 @@ img {
     
 .toggled {
     background-color: rgb(220, 220, 220);
+}
+
+#surprise {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    transform: scale(2);
 }

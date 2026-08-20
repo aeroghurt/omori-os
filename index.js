@@ -441,6 +441,7 @@ class Omori extends GameObject {
         this.interactSketchbook();
         this.interactMewo();
         this.interactTissues();
+        this.interactDoor();
         // why are you even reading this code?? there's nothing to learn from here.
     }
 
@@ -636,6 +637,16 @@ class Omori extends GameObject {
         if (distFromTissuesX <= 32 && distFromTissuesY <= 32 && distFromTissuesX >= 0 && distFromTissuesY >= 0) {
             wipeYourSorrowsAway();
             return document.querySelector("#tissues");
+        }
+    }
+
+    interactDoor() {
+        let distFromDoorX = Math.abs(this.body.position.x - door.position.x)
+        let distFromDoorY = Math.abs(this.body.position.y - door.position.y)
+        if (distFromDoorX <= 32 && distFromDoorY <= 32 && distFromDoorX >= 0 && distFromDoorY >= 0) {
+            hellMari();
+            openDoor();
+            return document.querySelector("#door");
         }
     }
 }
@@ -851,6 +862,7 @@ let sketchbookText = new RevealingText(document.querySelector("#sketchText>h1"),
 let loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "The heat from the laptop warmed your lap. It felt nice.");
 let mewoText = new RevealingText(document.querySelector("#mewo>h1"), "Meow? (Waiting for something to happen?)");
 let tissuesText = new RevealingText(document.querySelector("#tissues>h1"), "A tissue box for wiping your sorrows away.");
+let doorText = new RevealingText(document.querySelector("#door>h1"), "Something won't let you leave.");
 
 let booted = false;
 
@@ -858,7 +870,10 @@ computer.style.visibility = 'hidden';
 sketchbook.style.visibility = 'hidden';
 cat.style.visibility = 'hidden';
 document.querySelector("#game-container").style.visibility = 'hidden';
-document.querySelector("#journal").style.visibility = 'visible';
+document.querySelector("#journal").style.visibility = 'hidden';
+document.querySelector("#doorContainer").style.visibility = 'visible';
+document.querySelectorAll(".window")[0].style.visibility = 'hidden';
+document.querySelectorAll(".window")[1].style.visibility = 'hidden';
 
 document.querySelectorAll(".textbox").forEach(element => {
     element.style.visibility = 'hidden';
@@ -1031,6 +1046,21 @@ const update = (delta) => {
             }
         }
     }
+
+    if (doorText.isDone === true) {
+        document.querySelector("#door>.backnforth").style.visibility = 'visible';
+        let idkWhyButThisWorks = false
+        onkeydown = (event) => {
+            if (event.key === "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
+                reset();
+                idkWhyButThisWorks = true
+                document.querySelector("#door").style.visibility = 'hidden';
+                document.querySelector("#door>.backnforth").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[7].style.visibility = 'hidden';
+                document.querySelector("#doorContainer").style.visibility = 'hidden';
+            }
+        }
+    }
 }
 
 const draw = () => {
@@ -1130,6 +1160,7 @@ function laptopSelection(selected) {
         // chose to look at the journal
         case 1:
             document.querySelector("#journal").style.visibility = 'visible';
+            document.getElementsByClassName("window")[0].style.visibility = 'visible';
             reset();
             document.getElementById("loggedOff").style.visibility = 'hidden';
             document.querySelector("#loggedOff>.backnforth").style.visibility = 'hidden';
@@ -1162,10 +1193,13 @@ function laptopSelection(selected) {
 }
 
 function openSketchbook() {
+    console.log("opening sketchbook...")
+    console.log(sketchbookText.isDone, sketchbookText.oneInstance, state)
     if (state === "exiting") {
         return;
     }
     if (!sketchbookText.isDone && !sketchbookText.oneInstance && state === "canInteractAgain") {
+        console.log("yes")
         document.querySelector("#sketchpad").style.visibility = 'visible';
         document.querySelector("#sketchbook").style.visibility = 'hidden';
         document.getElementsByClassName("textbox")[4].style.visibility = 'visible';
@@ -1234,6 +1268,22 @@ function wipeYourSorrowsAway() {
     }
 }
 
+function openDoor() {
+    if (state === "exiting") {
+        return;
+    }
+    if (!doorText.isDone && !doorText.oneInstance && state == "canInteractAgain") {
+        document.querySelector("#doorContainer").style.visibility = 'visible';
+        document.getElementsByClassName("textbox")[7].style.visibility = 'visible';
+        doorText.init();
+    }
+    else if (doorText.isDone) {
+        arrowHands.forEach(arrowHands => {
+            arrowHands.style.visibility = 'hidden';
+        })
+    }
+}
+
 function reset() {
     newText.isDone = false;
     newText.oneInstance = false;
@@ -1244,8 +1294,11 @@ function reset() {
     mewoText.isDone = false;
     mewoText.oneInstance = false;
     tissuesText.isDone = false;
-    sketchText.oneInstance = false;
-    sketchText.isDone = false;
+    tissuesText.oneInstance = false;
+    doorText.isDone = false;
+    doorText.oneInstance = false;
+    sketchbookText.oneInstance = false;
+    sketchbookText.isDone = false;
     booted = false;
     document.getElementsByClassName("container")[0].style.background = 'black';
     for (let i = document.getElementsByTagName("span").length - 1; i >= 0; i--) {
@@ -1374,52 +1427,6 @@ function playWithLaser() {
     } else {
         document.body.setAttribute('style', 'cursor: default;');
         clearInterval(boredomInterval);
-    }
-}
-
-// makes the element draggable
-dragElement(document.getElementById("computer"));
-dragElement(document.getElementById("game-container"));
-dragElement(document.getElementById("journal-container"));
-document.getElementById("textEditor").addEventListener('mousedown', (e) => {
-    e.stopPropagation();
-})
-
-function dragElement(element) {
-    var initialX = 0;
-    var initialY = 0;
-    var currentX = 0;
-    var currentY = 0;
-
-    if (document.getElementById(element.id + "header")) {
-        document.getElementById(element.id + "header").onmousedown = startDragging;
-    } else {
-        element.onmousedown = startDragging;
-    }
-
-    function startDragging(e) {
-        e = e || window.event;
-        e.preventDefault();
-        initialX = e.clientX;
-        initialY = e.clientY;
-        document.onmouseup = stopDragging;
-        document.onmousemove = dragElement;
-    }
-
-    function dragElement(e) {
-        e = e || window.event;
-        e.preventDefault();
-        currentX = initialX - e.clientX;
-        currentY = initialY - e.clientY;
-        initialX = e.clientX;
-        initialY = e.clientY;
-        element.style.top = (element.offsetTop - currentY) + "px";
-        element.style.left = (element.offsetLeft - currentX) + "px";
-    }
-
-    function stopDragging() {
-        document.onmouseup = null;
-        document.onmousemove = null;
     }
 }
 
@@ -1557,7 +1564,7 @@ function renderJournal(entryContent) {
         p.textContent = entry;
 
         const deleteButton = document.createElement('button');
-        deleteButton.textButton = 'X';
+        deleteButton.textContent = 'X';
         deleteButton.onclick = () => {
             entries.splice(index, 1);
             saveJournal();
@@ -1573,20 +1580,74 @@ let entries = JSON.parse(localStorage.getItem('entries')) || [];
 
 function saveJournal() {
     localStorage.setItem('entries', JSON.stringify(entries));
-    console.log("saving...")
 }
 
 document.querySelector('#textEditor>button').addEventListener('click', () => {
-    // const elementTitle = document.querySelector("#textEditor>h1")
     const elementContent = document.querySelector("#textEditor>p")
-    // const entryTitle = elementTitle.innerHTML.trim();
     const entryContent = elementContent.innerHTML.trim();
     if (!entryContent) return;
     entries.push(entryContent);
     saveJournal();
     renderJournal(entryContent);
-    // elementTitle.innerHTML = '';
     elementContent.innerHTML = 'Edit content';
 })
 
 renderJournal();
+
+// wow you've found the not-so-hidden surprise yay
+function hellMari() {
+    let randNumber = Math.floor(Math.random() * 1000);
+    console.log(randNumber);
+    if (randNumber === 143) {
+        const hellmariImg = document.createElement("img");
+        hellmariImg.setAttribute('src', 'assets/hellmari.webp');
+        document.getElementById('surprise').appendChild(hellmariImg);
+        const tbx = document.createElement("div");
+    }
+}
+
+// makes the element draggable
+dragElement(document.getElementById("computer"));
+dragElement(document.getElementById("game-container"));
+dragElement(document.getElementById("journal-container"));
+document.getElementById("textEditor").addEventListener('mousedown', (e) => {
+    e.stopPropagation();
+})
+
+function dragElement(element) {
+    var initialX = 0;
+    var initialY = 0;
+    var currentX = 0;
+    var currentY = 0;
+
+    if (document.getElementById(element.id + "header")) {
+        document.getElementById(element.id + "header").onmousedown = startDragging;
+    } else {
+        element.onmousedown = startDragging;
+    }
+
+    function startDragging(e) {
+        e = e || window.event;
+        e.preventDefault();
+        initialX = e.clientX;
+        initialY = e.clientY;
+        document.onmouseup = stopDragging;
+        document.onmousemove = dragElement;
+    }
+
+    function dragElement(e) {
+        e = e || window.event;
+        e.preventDefault();
+        currentX = initialX - e.clientX;
+        currentY = initialY - e.clientY;
+        initialX = e.clientX;
+        initialY = e.clientY;
+        element.style.top = (element.offsetTop - currentY) + "px";
+        element.style.left = (element.offsetLeft - currentX) + "px";
+    }
+
+    function stopDragging() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}

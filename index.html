@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="surprise"></div>
     <div id="laptop" class="container" style="position: absolute; width: 100%; height: 100%; background-color: black; align-items: center;">
         <div id="computer">
             <img src="assets/laptop-bg.jpeg">
@@ -36,12 +37,6 @@
                             Take a look at my <a href="https://github.com/aeroghurt" style="background-color:white; color: black;">GitHub</a>!
                             </p>
                         </div>
-                        <!-- <div id="entries" style="visibility: hidden;">
-                            <form id="journal-form">
-                                <textarea id="user-input" placeholder="Write about anything..." required style="font-family: 'omori'; font-size: 1.5rem;"></textarea>
-                                <button type="submit">Add new entry</button>
-                            </form>
-                        </div> -->
                     </div>
                     <div class="window" style="z-index: 2; visibility: hidden; display: flex; flex-direction: column;">
                         <div id="textEditor">
@@ -205,6 +200,15 @@
         </div> 
     </div>
 
+    <div id="doorContainer" class="container">
+        <div id="door" class="textbox">
+            <h1 class="typewriter">
+                <!-- Something won't let you leave. -->
+            </h1>
+            <img src="assets/hand.png" class="backnforth">
+        </div>
+    </div>
+    
     <canvas id="canvas" width="320" height="180"></canvas>
 
     <script src="index.js" type="module" defer></script>
