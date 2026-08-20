@@ -19,6 +19,10 @@ const DOWN = "DOWN";
 const WHITE_SPACE = new Audio('assets/OMORI OST - 002 WHITE SPACE.mp3');
 WHITE_SPACE.loop = true;
 
+document.addEventListener('click', () => {
+    WHITE_SPACE.play();
+})
+
 class Vector2 {
     constructor(x = 0, y = 0) {
         this.x = x;
@@ -213,20 +217,6 @@ class GameLoop {
 const GridCells = n => {
     return n * 32;
 }
-
-//  const isSpaceFree = (walls, x, y) => {
-//     const str = `${x},${y}`;
-//     const isWallPresent = walls.has(str);
-//     return !isWallPresent;
-// }
-
-// walls.add(`96,0`); // door
-// for (let i = 0; i < 32; i++) {
-//     walls.add(`${96 - i},${0}`)
-//     walls.add(`${96},${0 - i}`)
-// }
-// walls.add(`128,64`); // laptop
-// walls.add(`192,128`); // tissues
 
 class Input {
     constructor() {
@@ -445,6 +435,7 @@ class Omori extends GameObject {
         this.interactMewo();
         this.interactTissues();
         this.interactDoor();
+        this.interactLightbulb();
         // why are you even reading this code?? there's nothing to learn from here.
     }
 
@@ -650,6 +641,15 @@ class Omori extends GameObject {
             hellMari();
             openDoor();
             return document.querySelector("#door");
+        }
+    }
+
+    interactLightbulb() {
+        let distFromLightbulbX = Math.abs(this.body.position.x - lightbulb.position.x)
+        let distFromLightbulbY = Math.abs(this.body.position.y - lightbulb.position.y)
+        if (distFromLightbulbX <= 100 && distFromLightbulbY <= 100 && distFromLightbulbX >= 0 && distFromLightbulbY >= 0) {
+            observeLightbulb();
+            return document.querySelector("#lightbulb");
         }
     }
 }
@@ -866,6 +866,7 @@ let loggedOffText = new RevealingText(document.querySelector("#loggedOff>h1"), "
 let mewoText = new RevealingText(document.querySelector("#mewo>h1"), "Meow? (Waiting for something to happen?)");
 let tissuesText = new RevealingText(document.querySelector("#tissues>h1"), "A tissue box for wiping your sorrows away.");
 let doorText = new RevealingText(document.querySelector("#door>h1"), "Something won't let you leave.");
+let lightbulbText = new RevealingText(document.querySelector("#lightbulb>h1"), "A lightbulb hangs from the ceiling, wherever it is.");
 
 let booted = false;
 
@@ -874,7 +875,7 @@ sketchbook.style.visibility = 'hidden';
 cat.style.visibility = 'hidden';
 document.querySelector("#game-container").style.visibility = 'hidden';
 document.querySelector("#journal").style.visibility = 'hidden';
-document.querySelector("#doorContainer").style.visibility = 'hiddena';
+document.querySelector("#doorContainer").style.visibility = 'hidden';
 document.querySelector("#sketchbook").style.visibility = 'hidden';
 document.querySelectorAll(".window")[0].style.visibility = 'hidden';
 document.querySelectorAll(".window")[1].style.visibility = 'hidden';
@@ -1065,6 +1066,21 @@ const update = (delta) => {
             }
         }
     }
+
+    if (lightbulbText.isDone === true) {
+        document.querySelector("#lightbulb>.backnforth").style.visibility = 'visible';
+        let idkWhyButThisWorks = false
+        onkeydown = (event) => {
+            if (event.key === "z" && state === "canInteractAgain" && idkWhyButThisWorks === false) {
+                reset();
+                idkWhyButThisWorks = true
+                document.querySelector("#lightbulb").style.visibility = 'hidden';
+                document.querySelector("#lightbulb>.backnforth").style.visibility = 'hidden';
+                document.getElementsByClassName("textbox")[8].style.visibility = 'hidden';
+                document.querySelector("#lightContainer").style.visibility = 'hidden';
+            }
+        }
+    }
 }
 
 const draw = () => {
@@ -1101,7 +1117,6 @@ setInterval(updateTime, 1000);
 
 function ready() {
     state = "canInteractAgain";
-    WHITE_SPACE.play();
 }
 
 function canInteractAgain() {
@@ -1289,6 +1304,23 @@ function openDoor() {
     }
 }
 
+function observeLightbulb() {
+    if (state === "exiting") {
+        return;
+    }
+    if (!lightbulbText.isDone && !lightbulbText.oneInstance && state == "canInteractAgain") {
+        document.querySelector("#lightContainer").style.visibility = 'visible';
+        document.querySelector("#lightbulb").style.visibility = 'visible';
+        document.getElementsByClassName("textbox")[8].style.visibility = 'visible';
+        lightbulbText.init();
+    }
+    else if (lightbulbText.isDone) {
+        arrowHands.forEach(arrowHands => {
+            arrowHands.style.visibility = 'hidden';
+        })
+    }
+}
+
 function reset() {
     newText.isDone = false;
     newText.oneInstance = false;
@@ -1304,6 +1336,8 @@ function reset() {
     doorText.oneInstance = false;
     sketchbookText.oneInstance = false;
     sketchbookText.isDone = false;
+    lightbulbText.oneInstance = false;
+    lightbulbText.isDone = false;
     booted = false;
     document.getElementsByClassName("container")[0].style.background = 'black';
     for (let i = document.getElementsByTagName("span").length - 1; i >= 0; i--) {
