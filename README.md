@@ -12,8 +12,8 @@ Right here: https://aeroghurt.github.io/omori-os/
 
 ## How To Interact
 
-Movement: use WASD (not arrow keys!! Not like the original game)
-Interact: press Z to interact with objects, arrow keys to pick options, and Z again to select said options
+Movement: use WASD (not arrow keys!! Not like the original game)\
+Interact: press Z to interact with objects, arrow keys to pick options, and Z again to select said options\
 (Warning: there may be bugs if you press the arrow keys when not intended, sorry about that. Just refresh if said bugs do happen, thanks.)
 
 ## Features
