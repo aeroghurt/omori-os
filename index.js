@@ -16,6 +16,9 @@ const RIGHT = "RIGNT";
 const UP = "UP";
 const DOWN = "DOWN";
 
+const WHITE_SPACE = new Audio('assets/OMORI OST - 002 WHITE SPACE.mp3');
+WHITE_SPACE.loop = true;
+
 class Vector2 {
     constructor(x = 0, y = 0) {
         this.x = x;
@@ -425,7 +428,7 @@ class Omori extends GameObject {
         }
     }
 
-    ready() { }
+    ready() {}
 
     tryEmitPosition() {
         if (this.lastX === this.position.x && this.lastY === this.position.y) {
@@ -616,7 +619,7 @@ class Omori extends GameObject {
     interactSketchbook() {
         let distFromSketchbookX = Math.abs(this.body.position.x - notebook.position.x)
         let distFromSketchbookY = Math.abs(this.body.position.y - notebook.position.y)
-        if (distFromSketchbookX <= 32 && distFromSketchbookY <= 32 && distFromSketchbookX >= 0 && distFromSketchbookY >= 0) {
+        if (distFromSketchbookX <= 20 && distFromSketchbookY <= 20 && distFromSketchbookX >= 0 && distFromSketchbookY >= 0) {
             openSketchbook();
             return document.querySelector(".textbox2");
         }
@@ -634,7 +637,7 @@ class Omori extends GameObject {
     interactTissues() {
         let distFromTissuesX = Math.abs(this.body.position.x - tissues.position.x)
         let distFromTissuesY = Math.abs(this.body.position.y - tissues.position.y)
-        if (distFromTissuesX <= 32 && distFromTissuesY <= 32 && distFromTissuesX >= 0 && distFromTissuesY >= 0) {
+        if (distFromTissuesX <= 20 && distFromTissuesY <= 20 && distFromTissuesX >= 0 && distFromTissuesY >= 0) {
             wipeYourSorrowsAway();
             return document.querySelector("#tissues");
         }
@@ -871,7 +874,8 @@ sketchbook.style.visibility = 'hidden';
 cat.style.visibility = 'hidden';
 document.querySelector("#game-container").style.visibility = 'hidden';
 document.querySelector("#journal").style.visibility = 'hidden';
-document.querySelector("#doorContainer").style.visibility = 'visible';
+document.querySelector("#doorContainer").style.visibility = 'hiddena';
+document.querySelector("#sketchbook").style.visibility = 'hidden';
 document.querySelectorAll(".window")[0].style.visibility = 'hidden';
 document.querySelectorAll(".window")[1].style.visibility = 'hidden';
 
@@ -1096,7 +1100,8 @@ function updateTime() {
 setInterval(updateTime, 1000);
 
 function ready() {
-    state = "canInteractAgain"
+    state = "canInteractAgain";
+    WHITE_SPACE.play();
 }
 
 function canInteractAgain() {
@@ -1610,6 +1615,10 @@ function hellMari() {
 dragElement(document.getElementById("computer"));
 dragElement(document.getElementById("game-container"));
 dragElement(document.getElementById("journal-container"));
+dragElement(document.getElementById("sketchpad"));
+document.getElementById("sketchCanvas").addEventListener('mousedown', (e) => {
+    e.stopPropagation();
+})
 document.getElementById("textEditor").addEventListener('mousedown', (e) => {
     e.stopPropagation();
 })
