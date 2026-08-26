@@ -8,7 +8,7 @@ OmoriOS is a webOS heavily inspired by the game Omori. This project is by no mea
 I thought it would be pretty cool to not only have a webOS, but also have a character walking around to interact with web apps RPG-style. And since my other project was based off of Verity™, I realised it would be cool to have an Omori-themed one (the Omori obsession never ends, huh).
 
 ## How to run
-Right here: https://aeroghurt.github.io/omori-os/
+Open index.html OR visit https://aeroghurt.github.io/omori-os/
 
 ## How To Interact
 
